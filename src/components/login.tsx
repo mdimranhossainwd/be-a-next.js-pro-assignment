@@ -21,12 +21,12 @@ interface Login1Props {
 }
 
 const Login = ({
-  heading = "Login",
+  heading = "Welcome, To Login",
   logo = {
     url: "https://www.shadcnblocks.com",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-wordmark.svg",
+    src: "https://i.ibb.co.com/QjczW4vb/145855843-8e8d722b-6a0a-4da0-9ca2-3aba986f49e9-removebg-preview.png",
     alt: "logo",
-    title: "shadcnblocks.com",
+    title: "Skill-Bridge",
   },
   buttonText = "Login",
   signupText = "Need an account?",
