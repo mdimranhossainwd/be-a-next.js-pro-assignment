@@ -1,7 +1,6 @@
 import * as React from "react";
 
 // import { SearchForm } from "@/components/layout/search-form";
-import { VersionSwitcher } from "@/components/layout/version-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -14,46 +13,41 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { adminRoute } from "@/routes/adminRoute";
+import { studentRoute } from "@/routes/studentRoute";
+import { tutorRoute } from "@/routes/tutorRoute";
+import { Router } from "@/types";
 import Link from "next/link";
 
-// This is sample data.
-const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Dashboard",
-          url: "/dashboard",
-        },
-        {
-          title: "Admin Dashboard",
-          url: "/admin-dashboard",
-        },
-        {
-          title: "Tutor Dashboard",
-          url: "/tutor-dashboard",
-        },
-      ],
-    },
-  ],
-};
+export function AppSidebar({
+  user,
+  ...props
+}: { user: { role: string } } & React.ComponentProps<typeof Sidebar>) {
+  let routes: Router[] = [];
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  switch (user.role) {
+    case "admin":
+      routes = adminRoute;
+      break;
+
+    case "student":
+      routes = studentRoute;
+      break;
+
+    case "tutor":
+      routes = tutorRoute;
+      break;
+
+    default:
+      routes = [];
+      break;
+  }
   return (
     <Sidebar {...props}>
-      <SidebarHeader>
-        <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        />
-        {/* <SearchForm /> */}
-      </SidebarHeader>
+      <SidebarHeader>{/* <SearchForm /> */}</SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
+        {routes.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
