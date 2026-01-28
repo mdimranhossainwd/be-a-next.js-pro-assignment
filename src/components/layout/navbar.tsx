@@ -88,7 +88,7 @@ const Navbar = ({
             {/* Logo */}
             <a href={logo.url} className="flex items-center gap-2">
               <img src={logo.src} className="max-h-10" alt={logo.alt} />
-              <span className="text-lg font-bold tracking-tighter">
+              <span className="text-2xl font-bold tracking-tighter">
                 {logo.title}
               </span>
             </a>
