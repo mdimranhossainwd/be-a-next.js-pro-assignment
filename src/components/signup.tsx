@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import { useForm } from "@tanstack/react-form";
 interface Signup1Props {
   heading?: string;
   logo?: {
@@ -31,6 +31,18 @@ const Signup = ({
   signupUrl = "https://shadcnblocks.com",
   className,
 }: Signup1Props) => {
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      role: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    }
+  });
+
   return (
     <section className={cn("h-screen bg-muted", className)}>
       <div className="flex h-full items-center justify-center">
@@ -44,6 +56,11 @@ const Signup = ({
               className="h-10 dark:invert"
             />
           </a>
+
+        <form onSubmit={(e) => {e.preventDefault(); form.handleSubmit()}}
+
+        </form>
+
           <div className="flex w-full max-w-sm min-w-sm flex-col items-center gap-y-4 rounded-md border border-muted bg-background px-6 py-8 shadow-md">
             {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
             <Input
