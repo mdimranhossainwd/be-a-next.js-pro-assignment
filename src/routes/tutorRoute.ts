@@ -5,12 +5,16 @@ export const tutorRoute: Router[] = [
     title: "Tutor Dashboard",
     items: [
       {
-        title: "Tutor Dashboard",
-        url: "/tutor-dashboard",
+        title: "Add Tutor",
+        url: "/tutor-dashboard/add-tutor",
       },
       {
         title: "My Tutor",
-        url: "/my-tutor",
+        url: "/tutor-dashboard/my-tutor",
+      },
+      {
+        title: "Review",
+        url: "/tutor-dashboard/review",
       },
     ],
   },
