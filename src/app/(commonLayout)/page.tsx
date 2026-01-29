@@ -1,15 +1,19 @@
+import Card from "@/components/ui/card";
+import { tutorService } from "@/tutor.service";
+import { Tutor } from "@/types";
 import {
-  ArrowRight,
   BookOpen,
   CheckCircle,
   MessageSquare,
   Search,
   Star,
   TrendingUp,
-  Users,
 } from "lucide-react";
 import Link from "next/link";
-export default function Home() {
+export default async function Home() {
+  const { data } = await tutorService.getAllTutors();
+  console.log(data);
+
   return (
     <>
       <section className="relative pt-20 pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -45,7 +49,7 @@ export default function Home() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
             {[
               { icon: Users, label: "Expert Tutors", value: "10,000+" },
               { icon: BookOpen, label: "Subjects", value: "500+" },
@@ -63,111 +67,16 @@ export default function Home() {
                 <div className="text-gray-600">{stat.label}</div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </section>
 
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800">
-              Meet Our{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Top Tutors
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600">
-              Learn from the best educators worldwide
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Dr. Sarah Johnson",
-                subject: "Mathematics",
-                rating: 4.9,
-                students: 1250,
-                price: "$40/hr",
-                image: "👩‍🏫",
-                badge: "Top Rated",
-              },
-              {
-                name: "Prof. Michael Chen",
-                subject: "Computer Science",
-                rating: 5.0,
-                students: 980,
-                price: "$50/hr",
-                image: "👨‍💻",
-                badge: "Featured",
-              },
-              {
-                name: "Emma Williams",
-                subject: "English Literature",
-                rating: 4.8,
-                students: 850,
-                price: "$35/hr",
-                image: "👩‍🎓",
-                badge: "Popular",
-              },
-            ].map((tutor, i) => (
-              <div
-                key={i}
-                className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2 overflow-hidden border border-gray-100"
-              >
-                <div className="relative">
-                  <div className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-sm font-semibold">
-                    {tutor.badge}
-                  </div>
-                  <div className="text-7xl text-center py-8 bg-gradient-to-br from-blue-100 to-purple-100">
-                    {tutor.image}
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-1">
-                    {tutor.name}
-                  </h3>
-                  <p className="text-blue-600 font-medium mb-4">
-                    {tutor.subject}
-                  </p>
-
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center">
-                      <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
-                      <span className="ml-1 font-semibold text-gray-800">
-                        {tutor.rating}
-                      </span>
-                      <span className="ml-1 text-gray-500 text-sm">
-                        ({tutor.students})
-                      </span>
-                    </div>
-                    <div className="text-2xl font-bold text-blue-600">
-                      {tutor.price}
-                    </div>
-                  </div>
-
-                  <Link href={`/tutors/${i + 1}`}>
-                    <button className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center">
-                      View Profile
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link href="/tutors">
-              <button className="px-8 py-4 bg-gray-800 text-white rounded-xl font-semibold hover:bg-gray-900 transition inline-flex items-center">
-                Explore All Tutors
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </button>
-            </Link>
-          </div>
-        </div>
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 lg:px-8 mb-20">
+        {data?.data?.map((tutor: Tutor) => (
+          <Card key={tutor.id} tutor={tutor} />
+        ))}
       </section>
+
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
