@@ -26,15 +26,15 @@ export function AppSidebar({
   let routes: Router[] = [];
 
   switch (user.role) {
-    case "admin":
+    case "ADMIN":
       routes = adminRoute;
       break;
 
-    case "student":
+    case "STUDENT":
       routes = studentRoute;
       break;
 
-    case "tutor":
+    case "TUTOR":
       routes = tutorRoute;
       break;
 
@@ -49,7 +49,9 @@ export function AppSidebar({
         {/* We create a SidebarGroup for each parent. */}
         {routes.map((item) => (
           <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-lg font-bold text-center pb-6 border-b-2">
+              {item.title}
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {item.items.map((item) => (

@@ -34,5 +34,5 @@ export interface Tutor {
 
   category: TutorCategory;
 
-  bookings: any[];
+  bookings: [];
 }
