@@ -1,6 +1,5 @@
-import Card from "@/components/ui/card";
+import TutorList from "@/components/layout/TutorFiltering";
 import { tutorService } from "@/tutor.service";
-import { Tutor } from "@/types";
 import {
   BookOpen,
   CheckCircle,
@@ -71,11 +70,13 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 lg:px-8 mb-20">
+      <TutorList />
+
+      {/* <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 lg:px-8 mb-20">
         {data?.data?.map((tutor: Tutor) => (
           <Card key={tutor.id} tutor={tutor} />
         ))}
-      </section>
+      </section> */}
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="max-w-7xl mx-auto">

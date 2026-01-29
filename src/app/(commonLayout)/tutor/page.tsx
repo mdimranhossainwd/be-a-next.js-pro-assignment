@@ -1,3 +1,9 @@
+import TutorList from "@/components/layout/TutorFiltering";
+
 export default function TutorPage() {
-  return <div>This is Tutor Page</div>;
+  return (
+    <div>
+      <TutorList />
+    </div>
+  );
 }
