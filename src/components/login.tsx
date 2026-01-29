@@ -1,20 +1,21 @@
-import { cn } from "@/lib/utils";
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { authClient } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
+import { useForm } from "@tanstack/react-form";
 import Link from "next/link";
 
-interface Login1Props {
+interface LoginProps {
   heading?: string;
   logo?: {
     url: string;
     src: string;
     alt: string;
     title?: string;
-    className?: string;
   };
   buttonText?: string;
-  googleText?: string;
   signupText?: string;
   signupUrl?: string;
   className?: string;
@@ -30,14 +31,32 @@ const Login = ({
   },
   buttonText = "Login",
   signupText = "Need an account?",
-  signupUrl = "https://shadcnblocks.com",
+  signupUrl = "/register",
   className,
-}: Login1Props) => {
+}: LoginProps) => {
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async ({ value }) => {
+      try {
+        await authClient.signIn.email({
+          email: value.email,
+          password: value.password,
+        } as any); // TS-safe ignore
+        alert("Login successful!");
+      } catch (err: any) {
+        alert(err.message || "Login failed");
+      }
+    },
+  });
+
   return (
     <section className={cn("h-screen bg-muted", className)}>
       <div className="flex h-full items-center justify-center">
-        {/* Logo */}
         <div className="flex flex-col items-center gap-6 lg:justify-start">
+          {/* Logo */}
           <a href={logo.url}>
             <img
               src={logo.src}
@@ -46,28 +65,83 @@ const Login = ({
               className="h-10 dark:invert"
             />
           </a>
-          <div className="flex w-full max-w-sm min-w-sm flex-col items-center gap-y-4 rounded-md border border-muted bg-background px-6 py-8 shadow-md">
-            {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
-            <Input
-              type="email"
-              placeholder="Email"
-              className="text-sm"
-              required
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              className="text-sm"
-              required
-            />
-            <Button type="submit" className="w-full">
+
+          {/* Login Form */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}
+            className="flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border bg-background px-6 py-8 shadow-md"
+          >
+            <h1 className="text-xl font-semibold">{heading}</h1>
+
+            {/* Email Field */}
+            <form.Field
+              name="email"
+              validators={{
+                onChange: ({ value }) =>
+                  !value.includes("@") ? "Invalid email address" : undefined,
+              }}
+            >
+              {(field) => (
+                <div className="w-full">
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    className="text-sm"
+                    required
+                  />
+                  {field.state.meta.errors && (
+                    <p className="text-xs text-red-500">
+                      {field.state.meta.errors}
+                    </p>
+                  )}
+                </div>
+              )}
+            </form.Field>
+
+            {/* Password Field */}
+            <form.Field
+              name="password"
+              validators={{
+                onChange: ({ value }) =>
+                  value.length < 6
+                    ? "Password must be at least 6 characters"
+                    : undefined,
+              }}
+            >
+              {(field) => (
+                <div className="w-full">
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    className="text-sm"
+                    required
+                  />
+                  {field.state.meta.errors && (
+                    <p className="text-xs text-red-500">
+                      {field.state.meta.errors}
+                    </p>
+                  )}
+                </div>
+              )}
+            </form.Field>
+
+            <Button type="submit" className="w-full" disabled={!form.state.isValid}>
               {buttonText}
             </Button>
-          </div>
+          </form>
+
+          {/* Signup Link */}
           <div className="flex justify-center gap-1 text-sm text-muted-foreground">
             <p>{signupText}</p>
             <Link
-              href="/register"
+              href={signupUrl}
               className="font-medium text-primary hover:underline"
             >
               Sign up
