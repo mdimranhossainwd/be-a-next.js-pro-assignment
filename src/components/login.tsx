@@ -6,6 +6,8 @@ import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { useForm } from "@tanstack/react-form";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface LoginProps {
   heading?: string;
@@ -34,6 +36,7 @@ const Login = ({
   signupUrl = "/register",
   className,
 }: LoginProps) => {
+  const router = useRouter();
   const form = useForm({
     defaultValues: {
       email: "",
@@ -44,10 +47,11 @@ const Login = ({
         await authClient.signIn.email({
           email: value.email,
           password: value.password,
-        } as any); // TS-safe ignore
-        alert("Login successful!");
+        });
+        toast.success("Login successful!");
+        router.push("/");
       } catch (err: any) {
-        alert(err.message || "Login failed");
+        toast.error(err.message || "Login failed");
       }
     },
   });
@@ -132,7 +136,11 @@ const Login = ({
               )}
             </form.Field>
 
-            <Button type="submit" className="w-full" disabled={!form.state.isValid}>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={!form.state.isValid}
+            >
               {buttonText}
             </Button>
           </form>

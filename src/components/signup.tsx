@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { useForm } from "@tanstack/react-form";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type Role = "STUDENT" | "TUTOR";
 
@@ -21,6 +23,7 @@ const Signup = ({
   signupUrl = "/login",
   className,
 }: any) => {
+  const router = useRouter();
   const form = useForm({
     defaultValues: {
       name: "",
@@ -32,12 +35,20 @@ const Signup = ({
     onSubmit: async ({ value }) => {
       console.log("Final Data:", value);
 
-      await authClient.signUp.email({
-        email: value.email,
-        name: value.name,
-        password: value.password,
-        role: value.role,
-      } as any);
+      try {
+        await authClient.signUp.email({
+          email: value.email,
+          name: value.name,
+          password: value.password,
+          role: value.role,
+        } as any);
+
+        toast.success("You have successfully registered.");
+
+        router.push("/");
+      } catch (err: any) {
+        toast.error("You have Not successfully registered.");
+      }
     },
   });
 
