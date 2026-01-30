@@ -12,7 +12,7 @@ export const studentRoute = [
       },
       {
         title: "Profile",
-        url: "/profile",
+        url: "/dashboard/profile",
       },
     ],
   },

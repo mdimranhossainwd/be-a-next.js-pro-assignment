@@ -9,7 +9,6 @@ interface ServiceResponse<T> {
 }
 
 export const tutorService = {
-  // 🔹 Get all tutors (Public)
   async getAllTutors(): Promise<ServiceResponse<any>> {
     try {
       const res = await fetch(`${API_URL}/tutor`, {
@@ -55,7 +54,6 @@ export const tutorService = {
     }
   },
 
-  // 🔹 Get tutor by ID (Public)
   async getTutorById(tutorId: string): Promise<ServiceResponse<any>> {
     try {
       const res = await fetch(`${API_URL}/tutor/${tutorId}`, {
@@ -76,7 +74,6 @@ export const tutorService = {
     }
   },
 
-  // 🔹 Create tutor profile (TUTOR only)
   async createTutor(
     payload: any,
     token: string,
@@ -105,7 +102,6 @@ export const tutorService = {
     }
   },
 
-  // 🔹 Update tutor profile (Any authenticated user)
   async updateProfile(
     payload: any,
     token: string,
@@ -134,7 +130,6 @@ export const tutorService = {
     }
   },
 
-  // 🔹 Update availability (TUTOR only)
   async updateAvailability(
     payload: any,
     token: string,

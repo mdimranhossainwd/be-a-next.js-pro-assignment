@@ -11,7 +11,6 @@ type User = {
 };
 
 export default function UserTable({ users }) {
-  // 🔴 FIX 1: users কে local state বানানো
   const [userList, setUserList] = useState<User[]>(users?.data || []);
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -29,7 +28,6 @@ export default function UserTable({ users }) {
 
       if (!res.ok) throw new Error("Failed to update status");
 
-      // 🔴 FIX 2: PATCH success হলে UI state update
       setUserList((prev) =>
         prev.map((user) => (user.id === userId ? { ...user, status } : user)),
       );
@@ -79,7 +77,7 @@ export default function UserTable({ users }) {
 
               <td className="border px-3 py-2 text-center">
                 <select
-                  value={user.status} // 🔴 FIX 3: controlled select
+                  value={user.status} 
                   disabled={loadingId === user.id}
                   onChange={(e) =>
                     updateStatus(user.id, e.target.value as User["status"])

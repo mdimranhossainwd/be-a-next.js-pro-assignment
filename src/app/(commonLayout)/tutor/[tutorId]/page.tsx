@@ -1,3 +1,4 @@
+import BookingForm from "@/components/booking-form";
 import { tutorService } from "@/tutor.service";
 import { Star } from "lucide-react";
 
@@ -12,9 +13,7 @@ export default async function GetSinglePage({
   return (
     <div className="max-w-7xl mx-auto py-12 px-4">
       <div className="grid lg:grid-cols-3 gap-8">
-        {/* Left Side: Tutor Details */}
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg p-8">
-          {/* Header */}
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">{tutor.title}</h1>
             {tutor.isVerified && (
@@ -24,10 +23,8 @@ export default async function GetSinglePage({
             )}
           </div>
 
-          {/* Bio */}
           <p className="text-gray-600 mb-4">{tutor.bio}</p>
 
-          {/* Subjects */}
           <div className="mb-4">
             <h2 className="font-semibold mb-1">Subjects</h2>
             <div className="flex flex-wrap gap-2">
@@ -42,7 +39,6 @@ export default async function GetSinglePage({
             </div>
           </div>
 
-          {/* Rating & Price */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Star className="h-5 w-5 text-yellow-400" />
@@ -56,13 +52,11 @@ export default async function GetSinglePage({
             </div>
           </div>
 
-          {/* Experience */}
           <div className="mb-4">
             <h2 className="font-semibold mb-1">Experience</h2>
             <p>{tutor.experienceYears}+ years</p>
           </div>
 
-          {/* Availability */}
           <div className="mb-4">
             <h2 className="font-semibold mb-1">Availability</h2>
             <p>{tutor.availability.days.join(", ")}</p>
@@ -70,66 +64,42 @@ export default async function GetSinglePage({
           </div>
         </div>
 
-        {/* Right Side: Booking Form */}
-        <div className="bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold mb-4">Book a Session</h2>
+        <BookingForm tutorId={tutor.id} availability={tutor.availability} />
+      </div>
 
-          <form className="flex flex-col gap-4">
-            {/* Date Selector */}
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Select Date
-              </label>
-              <input
-                type="date"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2"
-              />
-            </div>
+      <div className="mt-8">
+        <h2 className="text-2xl font-semibold mb-6">Reviews</h2>
 
-            {/* Time Selector */}
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Select Time
-              </label>
-              <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
-                {tutor.availability.hours.map((hour: string) => (
-                  <option key={hour} value={hour}>
-                    {hour}
-                  </option>
-                ))}
-              </select>
-            </div>
+        {tutor.reviews.length === 0 ? (
+          <p className="text-gray-500">No reviews yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {tutor.reviews.map((review) => (
+              <div
+                key={review.id}
+                className="border rounded-xl p-4 shadow-md bg-white flex flex-col justify-between"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">{review.student.name}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Star className="h-4 w-4 text-yellow-400" />
+                    <span className="text-sm font-semibold">
+                      {review.rating}
+                    </span>
+                  </div>
+                </div>
 
-            {/* Name / Email */}
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Your Name
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your name"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2"
-              />
-            </div>
+                <p className="text-gray-600 mb-3 flex-grow">{review.comment}</p>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="mt-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition"
-            >
-              Book Now
-            </button>
-          </form>
-        </div>
+                <p className="text-gray-400 text-xs">
+                  {new Date(review.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -9,33 +9,6 @@ interface ServiceResponse<T> {
 }
 
 export const bookingService = {
-  // 🔹 Create booking (Any authenticated user – usually Student)
-  // async createBooking(payload: any): Promise<ServiceResponse<any>> {
-  //   try {
-  //     const res = await fetch(`${API_URL}/booking`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(payload),
-  //       cache: "no-store", // always dynamic
-  //     });
-
-  //     if (!res.ok) {
-  //       throw new Error("Booking creation failed");
-  //     }
-
-  //     const data = await res.json();
-  //     return { data, error: null };
-  //   } catch {
-  //     return {
-  //       data: null,
-  //       error: { message: "Unable to create booking" },
-  //     };
-  //   }
-  // },
-
-  // 🔹 Student: Get my bookings
   async getStudentBookings() {
     try {
       const cookieStore = await cookies();
@@ -61,7 +34,6 @@ export const bookingService = {
     }
   },
 
-  // 🔹 Tutor: Get tutor bookings
   async getTutorBookings() {
     try {
       const cookieStore = await cookies();
@@ -87,7 +59,6 @@ export const bookingService = {
     }
   },
 
-  // 🔹 Admin / Public: Get all bookings
   async getAllBookings(): Promise<ServiceResponse<any>> {
     try {
       const cookieStore = await cookies();
@@ -113,7 +84,6 @@ export const bookingService = {
     }
   },
 
-  // 🔹 Get booking by ID (auth)
   async getBookingById(
     bookingId: string,
     token: string,
@@ -140,7 +110,6 @@ export const bookingService = {
     }
   },
 
-  // 🔹 Update booking status (auth)
   async updateBookingStatus(
     bookingId: string,
     payload: any,
@@ -171,7 +140,6 @@ export const bookingService = {
     }
   },
 
-  // 🔹 Tutor: Complete booking
   async completeBooking(
     bookingId: string,
     token: string,

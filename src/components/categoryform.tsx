@@ -37,7 +37,7 @@ export default function CategoryForm() {
       const result = await res.json();
       console.log("Category created:", result);
 
-      reset(); // old-school form clear 🙂
+      reset();
       alert("Category created successfully");
     } catch (error) {
       console.error(error);
@@ -47,7 +47,6 @@ export default function CategoryForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-md">
-      {/* Name */}
       <div>
         <label className="block mb-1 font-medium">Name</label>
         <input
@@ -60,7 +59,6 @@ export default function CategoryForm() {
         )}
       </div>
 
-      {/* Slug */}
       <div>
         <label className="block mb-1 font-medium">Slug</label>
         <input
@@ -73,7 +71,6 @@ export default function CategoryForm() {
         )}
       </div>
 
-      {/* isActive */}
       <div className="flex items-center gap-2">
         <input type="checkbox" {...register("isActive")} />
         <label>Is Active</label>

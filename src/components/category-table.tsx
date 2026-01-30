@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 type Category = {
   name: string;
@@ -14,7 +15,6 @@ export default function CategoryTable({ categories }) {
   const [selected, setSelected] = useState<Category | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // ---------------- EDIT ----------------
   const openEdit = (cat: Category) => {
     setSelected(cat);
     setOpen(true);
@@ -26,48 +26,51 @@ export default function CategoryTable({ categories }) {
     try {
       setLoading(true);
 
-      const res = await fetch(`/categories/${selected.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: selected.name,
-          slug: selected.slug,
-          isActive: selected.isActive,
-        }),
-      });
+      const res = await fetch(
+        `http://localhost:3000/api/v1/categories/${selected.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            name: selected.name,
+            slug: selected.slug,
+            isActive: selected.isActive,
+          }),
+        },
+      );
 
       if (!res.ok) throw new Error("Update failed");
 
       setList((prev) => prev.map((c) => (c.id === selected.id ? selected : c)));
 
       setOpen(false);
+      toast.success("Category Update Successfully");
     } catch (err) {
-      alert("Update failed");
+      toast.error("Category Update failed");
     } finally {
       setLoading(false);
     }
   };
 
-  // ---------------- DELETE ----------------
   const deleteCategory = async (id: string) => {
-    if (!confirm("Are you sure to delete this category?")) return;
-
     try {
-      const res = await fetch(`/categories/${id}`, {
+      const res = await fetch(`http://localhost:3000/api/v1/categories/${id}`, {
         method: "DELETE",
+        credentials: "include",
       });
 
       if (!res.ok) throw new Error("Delete failed");
 
       setList((prev) => prev.filter((c) => c.id !== id));
+      toast.success("Deleted Successfully");
     } catch {
-      alert("Delete failed");
+      toast.error("Delete failed");
     }
   };
 
   return (
     <>
-      {/* ================= TABLE ================= */}
       <div className="overflow-x-auto">
         <table className="w-full border text-sm">
           <thead className="bg-gray-100">
@@ -113,7 +116,6 @@ export default function CategoryTable({ categories }) {
         </table>
       </div>
 
-      {/* ================= MODAL ================= */}
       {open && selected && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
           <div className="bg-white w-96 p-4 rounded space-y-3">

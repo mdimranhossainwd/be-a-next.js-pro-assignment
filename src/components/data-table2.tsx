@@ -30,7 +30,6 @@ export const TutorProfileTable = ({ tutors }) => {
     "Friday",
   ];
 
-  // Full Profile Edit Form
   const {
     register: registerEdit,
     handleSubmit: handleEditSubmit,
@@ -38,7 +37,6 @@ export const TutorProfileTable = ({ tutors }) => {
     watch: watchEdit,
   } = useForm();
 
-  // Availability Edit Form
   const {
     register: registerAvailability,
     handleSubmit: handleAvailabilitySubmit,
@@ -49,6 +47,7 @@ export const TutorProfileTable = ({ tutors }) => {
   const handleEditClick = (tutor) => {
     setSelectedTutor(tutor);
     resetEdit({
+      id: tutor.id,
       title: tutor.title,
       bio: tutor.bio,
       hourlyRate: tutor.hourlyRate,
@@ -105,7 +104,7 @@ export const TutorProfileTable = ({ tutors }) => {
 
       toast.success("Profile updated successfully!");
       setEditModalOpen(false);
-      window.location.reload(); // বা data refetch করুন
+      window.location.reload();
     } catch (err) {
       console.error(err);
       toast.error("Failed to update profile");
@@ -255,7 +254,6 @@ export const TutorProfileTable = ({ tutors }) => {
         </div>
       </section>
 
-      {/* Full Profile Edit Modal */}
       <Dialog open={editModalOpen} onOpenChange={setEditModalOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -365,7 +363,6 @@ export const TutorProfileTable = ({ tutors }) => {
         </DialogContent>
       </Dialog>
 
-      {/* Availability Edit Modal */}
       <Dialog
         open={availabilityModalOpen}
         onOpenChange={setAvailabilityModalOpen}

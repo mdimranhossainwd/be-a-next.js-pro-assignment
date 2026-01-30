@@ -3,15 +3,64 @@
 import Card from "@/components/ui/card";
 import { Tutor } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-
+import { useCallback, useEffect, useState } from "react";
 export default function TutorList() {
+  // const router = useRouter();
+  // const searchParams = useSearchParams();
+
+  // // Initialize filters from URL
+  // const [filters, setFilters] = useState({
+  //   subject: searchParams.get("category") || "",
+  //   rating: searchParams.get("rating") || "",
+  //   price: searchParams.get("price") || "",
+  // });
+
+  // const [tutors, setTutors] = useState<Tutor[]>([]);
+  // const [loading, setLoading] = useState(false);
+
+  // // Fetch tutors with current filters
+  // const fetchTutors = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const query = new URLSearchParams();
+
+  //     if (filters.subject) query.append("subjects", filters.subject);
+  //     if (filters.rating) query.append("rating", filters.rating);
+  //     if (filters.price) query.append("price", filters.price);
+
+  //     // Update URL without reload
+  //     router.replace(`?${query.toString()}`, { scroll: false });
+
+  //     const url = `http://localhost:3000/api/v1/tutor?${query.toString()}`;
+  //     const res = await fetch(url);
+  //     const data = await res.json();
+
+  //     setTutors(data?.data || []);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setTutors([]);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchTutors();
+  // }, []);
+
+  // const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setFilters((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  // };
+
+  // const handleApplyFilters = () => {
+  //   fetchTutors();
+  // };
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Initialize filters from URL
   const [filters, setFilters] = useState({
-    subject: searchParams.get("category") || "",
+    subject: searchParams.get("subjects") || "",
     rating: searchParams.get("rating") || "",
     price: searchParams.get("price") || "",
   });
@@ -19,8 +68,7 @@ export default function TutorList() {
   const [tutors, setTutors] = useState<Tutor[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Fetch tutors with current filters
-  const fetchTutors = async () => {
+  const fetchTutors = useCallback(async () => {
     setLoading(true);
     try {
       const query = new URLSearchParams();
@@ -29,7 +77,6 @@ export default function TutorList() {
       if (filters.rating) query.append("rating", filters.rating);
       if (filters.price) query.append("price", filters.price);
 
-      // Update URL without reload
       router.replace(`?${query.toString()}`, { scroll: false });
 
       const url = `http://localhost:3000/api/v1/tutor?${query.toString()}`;
@@ -43,11 +90,18 @@ export default function TutorList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    const subjectFromUrl = searchParams.get("subjects") || "";
+    if (subjectFromUrl !== filters.subject) {
+      setFilters((prev) => ({ ...prev, subject: subjectFromUrl }));
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     fetchTutors();
-  }, []);
+  }, [fetchTutors]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilters((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -59,9 +113,7 @@ export default function TutorList() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      {/* Filter Section */}
       <div className="mb-6 bg-white rounded-2xl shadow-lg p-6 flex flex-col md:flex-row gap-4 items-center">
-        {/* Subject */}
         <div className="flex-1">
           <label className="block text-gray-700 font-semibold mb-1">
             Subject
@@ -84,7 +136,6 @@ export default function TutorList() {
           </select>
         </div>
 
-        {/* Rating */}
         <div className="flex-1">
           <label className="block text-gray-700 font-semibold mb-1">
             Minimum Rating
@@ -102,7 +153,6 @@ export default function TutorList() {
           </select>
         </div>
 
-        {/* Price */}
         <div className="flex-1">
           <label className="block text-gray-700 font-semibold mb-1">
             Price Range
@@ -130,7 +180,6 @@ export default function TutorList() {
         </div>
       </div>
 
-      {/* Tutor Cards */}
       {loading ? (
         <div className="text-center text-gray-500 py-10">Loading tutors...</div>
       ) : (

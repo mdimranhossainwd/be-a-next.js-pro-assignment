@@ -8,26 +8,22 @@ export async function proxy(request: NextRequest) {
   let isAuthenticated = false;
   let userRole: string | null = null;
 
-  // Get user session
   try {
     const { data } = await userService.getSession();
 
     if (data && data.user) {
       isAuthenticated = true;
-      userRole = data.user.role; // "STUDENT", "TUTOR", "ADMIN"
+      userRole = data.user.role;
     }
   } catch (err) {
     console.error("Session fetch error:", err);
   }
 
-  // User not authenticated
   if (!isAuthenticated) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // Role-based dashboard redirects
   if (userRole === Roles.student) {
-    // Prevent student from visiting tutor or admin dashboards
     if (
       pathname.startsWith("/tutor-dashboard") ||
       pathname.startsWith("/admin-dashboard")
@@ -37,7 +33,6 @@ export async function proxy(request: NextRequest) {
   }
 
   if (userRole === Roles.tutor) {
-    // Prevent tutor from visiting student or admin dashboards
     if (
       pathname.startsWith("/dashboard") ||
       pathname.startsWith("/admin-dashboard")
@@ -47,7 +42,6 @@ export async function proxy(request: NextRequest) {
   }
 
   if (userRole === Roles.admin) {
-    // Prevent admin from visiting student or tutor dashboards
     if (
       pathname.startsWith("/dashboard") ||
       pathname.startsWith("/tutor-dashboard")
@@ -56,7 +50,6 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // All other routes are allowed
   return NextResponse.next();
 }
 

@@ -50,7 +50,9 @@ export default function TutorProfileForm() {
           .filter((s: string) => s),
         availability: {
           days: values.availabilityDays,
-          hours: values.availabilityHours,
+          hours: [
+            `${values.availabilityHours[0].padStart(5, "0")}-${values.availabilityHours[1].padStart(5, "0")}`,
+          ],
         },
         isVerified: values.isVerified,
       };
@@ -85,7 +87,6 @@ export default function TutorProfileForm() {
       <h1 className="text-2xl font-bold mb-6">Tutor Profile Form</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Title */}
         <div>
           <label className="block font-semibold mb-1">Title</label>
           <input
@@ -95,7 +96,6 @@ export default function TutorProfileForm() {
           />
         </div>
 
-        {/* Bio */}
         <div>
           <label className="block font-semibold mb-1">Bio</label>
           <textarea
@@ -105,7 +105,6 @@ export default function TutorProfileForm() {
           />
         </div>
 
-        {/* Hourly Rate & Experience */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block font-semibold mb-1">Hourly Rate ($)</label>
@@ -127,9 +126,10 @@ export default function TutorProfileForm() {
           </div>
         </div>
 
-        {/* Category ID */}
         <div>
-          <label className="block font-semibold mb-1">Category ID</label>
+          <label className="block font-semibold mb-1">
+            Category ID (Must be Provided)
+          </label>
           <input
             {...register("categoryId")}
             placeholder="Enter category ID"
@@ -137,7 +137,6 @@ export default function TutorProfileForm() {
           />
         </div>
 
-        {/* Subjects */}
         <div>
           <label className="block font-semibold mb-1">Subjects</label>
           <input
@@ -147,7 +146,6 @@ export default function TutorProfileForm() {
           />
         </div>
 
-        {/* Availability Days */}
         <div>
           <label className="block font-semibold mb-1">
             Available Days (Select 2-3)
@@ -170,7 +168,6 @@ export default function TutorProfileForm() {
           </div>
         </div>
 
-        {/* Availability Hours */}
         <div>
           <label className="block font-semibold mb-1">Available Hours</label>
           <div className="flex gap-2">
@@ -187,7 +184,6 @@ export default function TutorProfileForm() {
           </div>
         </div>
 
-        {/* Verified */}
         <div className="flex items-center gap-2">
           <input type="checkbox" {...register("isVerified")} />
           <label>Verified Tutor</label>
