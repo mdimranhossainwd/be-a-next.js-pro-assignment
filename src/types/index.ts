@@ -13,26 +13,53 @@ export interface TutorCategory {
   createdAt: string;
 }
 
+export interface Booking {
+  id: string;
+  studentId: string;
+  tutorId: string;
+  sessionDate: string;
+  startTime: string;
+  endTime?: string;
+  status?: string;
+}
+
+export interface AdminBookingTableProps {
+  bookings: {
+    data: Booking[];
+  };
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+// Define the props type
+export interface CategoryTableProps {
+  categories: Category[];
+}
 export interface Tutor {
   id: string;
   title: string;
   bio: string;
-  hourlyRate: number;
-  experienceYears: number;
   subjects: string[];
   avgRating: number;
   totalReviews: number;
+  hourlyRate: number;
+  experienceYears: number;
+  availability: {
+    days: string[];
+    hours: string[];
+  };
+  reviews: {
+    id: string;
+    student: { name: string };
+    rating: number;
+    comment: string;
+    createdAt: string;
+  }[];
   isVerified: boolean;
-
-  categoryId: string;
-  userId: string;
-
-  availability: TutorAvailability;
-
-  createdAt: string;
-  updatedAt: string;
-
-  category: TutorCategory;
-
-  bookings: [];
 }

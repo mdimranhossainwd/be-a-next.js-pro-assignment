@@ -3,13 +3,21 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-export default function BookingForm({ tutorId }) {
+type BookingFormProps = {
+  tutorId: string;
+  availability: {
+    days: string[];
+    hours: string[];
+  };
+};
+
+export default function BookingForm({ tutorId }: BookingFormProps) {
   const [sessionDate, setSessionDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     if (!sessionDate || !startTime || !endTime) {

@@ -1,15 +1,10 @@
 "use client";
 
+import { Category, CategoryTableProps } from "@/types";
 import { useState } from "react";
 import { toast } from "sonner";
 
-type Category = {
-  name: string;
-  slug: string;
-  isActive: boolean;
-};
-
-export default function CategoryTable({ categories }) {
+export default function CategoryTable({ categories }: CategoryTableProps) {
   const [list, setList] = useState<Category[]>(categories || []);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Category | null>(null);

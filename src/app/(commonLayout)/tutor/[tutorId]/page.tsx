@@ -1,5 +1,6 @@
 import BookingForm from "@/components/booking-form";
 import { tutorService } from "@/tutor.service";
+import { Tutor } from "@/types";
 import { Star } from "lucide-react";
 
 export default async function GetSinglePage({
@@ -9,7 +10,7 @@ export default async function GetSinglePage({
 }) {
   const { tutorId } = await params;
   const { data } = await tutorService.getTutorById(tutorId);
-  const tutor = data.data || {};
+  const tutor: Tutor = data.data || {};
   return (
     <div className="max-w-7xl mx-auto py-12 px-4">
       <div className="grid lg:grid-cols-3 gap-8">

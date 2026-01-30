@@ -33,7 +33,7 @@ export default async function MyTutorPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {reviews.map((r) => (
+              {reviews.map((r: any) => (
                 <TableRow key={r.id}>
                   <TableCell className="font-medium">
                     {r.student?.name || "Unknown"}

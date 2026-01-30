@@ -1,5 +1,6 @@
 "use client";
 
+import { Tutor } from "@/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -15,7 +16,7 @@ import {
   TableRow,
 } from "./ui/table";
 
-export const TutorProfileTable = ({ tutors }) => {
+export const TutorProfileTable = ({ tutors }: Tutor) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [availabilityModalOpen, setAvailabilityModalOpen] = useState(false);
   const [selectedTutor, setSelectedTutor] = useState(null);

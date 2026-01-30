@@ -1,6 +1,10 @@
 "use client";
 
-export default function AdminBookingTable({ bookings }) {
+import { AdminBookingTableProps } from "@/types";
+
+export default function AdminBookingTable({
+  bookings,
+}: AdminBookingTableProps) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full border border-gray-300 text-sm">
