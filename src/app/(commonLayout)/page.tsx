@@ -1,3 +1,4 @@
+import CategorySection from "@/components/layout/categorysection";
 import HomeSection from "@/components/layout/home";
 import TutorList from "@/components/layout/TutorFiltering";
 import { tutorService } from "@/tutor.service";
@@ -17,6 +18,9 @@ export default async function Home() {
   return (
     <>
       <HomeSection />
+
+      <CategorySection />
+
       <TutorList />
 
       {/* <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 lg:px-8 mb-20">
