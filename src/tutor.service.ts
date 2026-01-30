@@ -1,4 +1,5 @@
-import { env } from "@/env"
+import { env } from "@/env";
+import { cookies } from "next/headers";
 
 const API_URL = env.API_URL;
 
@@ -25,6 +26,31 @@ export const tutorService = {
       return {
         data: null,
         error: { message: "Unable to load tutors" },
+      };
+    }
+  },
+
+  async getTutorProfile() {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${API_URL}/my-tutors`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed");
+      }
+
+      const data = await res.json();
+      return { data, error: null };
+    } catch {
+      return {
+        data: null,
+        error: { message: "Unable to fetch student bookings" },
       };
     }
   },

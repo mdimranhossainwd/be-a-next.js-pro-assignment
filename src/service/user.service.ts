@@ -27,4 +27,23 @@ export const userService = {
       return { data: null, error: { message: "Something Went Wrong" } };
     }
   },
+  getAllUsers: async function () {
+    try {
+      const cookieStore = await cookies();
+      const res = await fetch(`http://localhost:3000/api/v1/admin/users`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
+      const users = await res.json();
+      if (users === null) {
+        return { data: null, error: { message: "No users found." } };
+      }
+      return { data: users, error: null };
+    } catch (err) {
+      console.error(err);
+      return { data: null, error: { message: "Something Went Wrong" } };
+    }
+  },
 };

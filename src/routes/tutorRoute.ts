@@ -13,6 +13,10 @@ export const tutorRoute: Router[] = [
         url: "/tutor-dashboard/my-tutor",
       },
       {
+        title: "Session Slot",
+        url: "/tutor-dashboard/session-slot",
+      },
+      {
         title: "Review",
         url: "/tutor-dashboard/review",
       },

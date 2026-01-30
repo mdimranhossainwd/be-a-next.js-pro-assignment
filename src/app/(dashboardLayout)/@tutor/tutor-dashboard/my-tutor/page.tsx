@@ -1,10 +1,13 @@
-// app/(dashboard)/my-booking/page.tsx
-import { DataTable1 } from "@/components/data-table1";
-import { bookingService } from "@/service/booking.service";
+import { TutorProfileTable } from "@/components/data-table2";
+import { tutorService } from "@/tutor.service";
 
-export default async function MyTutorBooking() {
-  const { data: bookings } = await bookingService.getTutorBookings();
-  console.log(bookings);
+export default async function MyTutorPage() {
+  const { data: profile } = await tutorService.getTutorProfile();
+  console.log(profile);
 
-  return <DataTable1 bookings={bookings} />;
+  return (
+    <div>
+      <TutorProfileTable tutors={profile} />
+    </div>
+  );
 }

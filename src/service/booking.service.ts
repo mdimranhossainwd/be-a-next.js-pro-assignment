@@ -90,7 +90,12 @@ export const bookingService = {
   // 🔹 Admin / Public: Get all bookings
   async getAllBookings(): Promise<ServiceResponse<any>> {
     try {
+      const cookieStore = await cookies();
       const res = await fetch(`${API_URL}/all-bookings`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
         next: { revalidate: 30 },
       });
 
