@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/auth/:path*",
-        destination: `http://localhost:3000/api/auth/:path*`,
+        destination: `https://be-a-prisma-pro-assignment.vercel.app/api/auth/:path*`,
       },
     ];
   },

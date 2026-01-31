@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import CategoryTable from "@/components/category-table";
 import { categoryService } from "@/service/category.service";
 

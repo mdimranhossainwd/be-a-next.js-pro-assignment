@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import UserTable from "@/components/user-table";
 import { userService } from "@/service/user.service";
 

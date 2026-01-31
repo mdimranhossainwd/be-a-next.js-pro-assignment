@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import CategorySection from "@/components/layout/categorysection";
 import HomeSection from "@/components/layout/home";
 import TutorList from "@/components/layout/TutorFiltering";
