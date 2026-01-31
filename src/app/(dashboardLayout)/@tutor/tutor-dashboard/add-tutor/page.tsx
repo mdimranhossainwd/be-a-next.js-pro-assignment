@@ -57,14 +57,17 @@ export default function TutorProfileForm() {
         isVerified: values.isVerified,
       };
       console.log("Payload:", payload);
-      const response = await fetch("http://localhost:3000/api/v1/tutor", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://be-a-prisma-pro-assignment.vercel.app/api/v1/tutor",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(payload),
         },
-        credentials: "include",
-        body: JSON.stringify(payload),
-      });
+      );
       const data = await response.json();
       console.log("Backend Response:", data);
 
