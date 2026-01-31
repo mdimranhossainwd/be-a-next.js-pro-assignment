@@ -63,3 +63,37 @@ export interface Tutor {
   }[];
   isVerified: boolean;
 }
+
+export interface TutorReview {
+  id: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
+
+export interface TutorProfile {
+  id: string;
+  userId: string;
+
+  title: string;
+  bio: string;
+
+  subjects: string[];
+
+  experienceYears: number;
+  hourlyRate: number;
+
+  availability: TutorAvailability;
+
+  avgRating: number;
+  totalReviews: number;
+  isVerified: boolean;
+
+  categoryId: string;
+  category: TutorCategory;
+
+  reviews: TutorReview[];
+
+  createdAt: string;
+  updatedAt: string;
+}

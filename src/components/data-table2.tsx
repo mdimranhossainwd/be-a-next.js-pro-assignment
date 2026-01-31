@@ -1,6 +1,5 @@
 "use client";
 
-import { Tutor } from "@/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -16,7 +15,7 @@ import {
   TableRow,
 } from "./ui/table";
 
-export const TutorProfileTable = ({ tutors }: Tutor) => {
+export const TutorProfileTable = ({ tutors }: any) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [availabilityModalOpen, setAvailabilityModalOpen] = useState(false);
   const [selectedTutor, setSelectedTutor] = useState(null);
@@ -45,7 +44,7 @@ export const TutorProfileTable = ({ tutors }: Tutor) => {
     watch: watchAvailability,
   } = useForm();
 
-  const handleEditClick = (tutor) => {
+  const handleEditClick = (tutor: any) => {
     setSelectedTutor(tutor);
     resetEdit({
       id: tutor.id,
@@ -62,7 +61,7 @@ export const TutorProfileTable = ({ tutors }: Tutor) => {
     setEditModalOpen(true);
   };
 
-  const handleAvailabilityClick = (tutor) => {
+  const handleAvailabilityClick = (tutor: any) => {
     setSelectedTutor(tutor);
     resetAvailability({
       availabilityDays: tutor.availability.days,
@@ -71,7 +70,7 @@ export const TutorProfileTable = ({ tutors }: Tutor) => {
     setAvailabilityModalOpen(true);
   };
 
-  const onEditSubmit = async (values) => {
+  const onEditSubmit = async (values: any) => {
     try {
       const payload = {
         id: selectedTutor.id,
@@ -112,7 +111,7 @@ export const TutorProfileTable = ({ tutors }: Tutor) => {
     }
   };
 
-  const onAvailabilitySubmit = async (values) => {
+  const onAvailabilitySubmit = async (values: any) => {
     try {
       const payload = {
         courseId: selectedTutor.id,
@@ -138,7 +137,7 @@ export const TutorProfileTable = ({ tutors }: Tutor) => {
 
       toast.success("Availability updated successfully!");
       setAvailabilityModalOpen(false);
-      window.location.reload(); // বা data refetch করুন
+      window.location.reload();
     } catch (err) {
       console.error(err);
       toast.error("Failed to update availability");
@@ -168,13 +167,13 @@ export const TutorProfileTable = ({ tutors }: Tutor) => {
               </TableHeader>
 
               <TableBody>
-                {tutors?.data.map((tutor) => (
+                {tutors?.data.map((tutor: any) => (
                   <TableRow key={tutor.id}>
                     <TableCell className="font-medium">{tutor.title}</TableCell>
 
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
-                        {tutor.subjects.slice(0, 3).map((subject, i) => (
+                        {tutor.subjects.slice(0, 3).map((subject: any, i) => (
                           <Badge
                             key={i}
                             variant="secondary"
