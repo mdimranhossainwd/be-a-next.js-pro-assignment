@@ -49,6 +49,10 @@ interface Navbar1Props {
       title: string;
       url: string;
     };
+    logout: {
+      title: string;
+      url: string;
+    };
   };
 }
 
@@ -77,6 +81,7 @@ const Navbar = ({
   auth = {
     login: { title: "Login", url: "/login" },
     signup: { title: "Register", url: "/register" },
+    logout: { title: "Logout", url: "/logout" },
   },
   className,
 }: Navbar1Props) => {
@@ -106,14 +111,23 @@ const Navbar = ({
               </NavigationMenuList>
             </NavigationMenu>
           </div>
-          <div className="flex gap-2">
-            <Button asChild variant="outline" size="sm">
-              <Link href={auth.login.url}>{auth.login.title}</Link>
-            </Button>
-            <Button asChild size="sm">
-              <Link href={auth.signup.url}>{auth.signup.title}</Link>
-            </Button>
-          </div>
+
+          {session ? (
+            <div>
+              <Button asChild variant="outline" size="sm">
+                <Link href={auth.logout.url}>{auth.logout.title}</Link>
+              </Button>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <Button asChild variant="outline" size="sm">
+                <Link href={auth.login.url}>{auth.login.title}</Link>
+              </Button>
+              <Button asChild size="sm">
+                <Link href={auth.signup.url}>{auth.signup.title}</Link>
+              </Button>
+            </div>
+          )}
         </nav>
 
         {/* Mobile Menu */}
