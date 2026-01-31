@@ -19,6 +19,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 
 interface MenuItem {
@@ -79,6 +80,10 @@ const Navbar = ({
   },
   className,
 }: Navbar1Props) => {
+  const { data: session } = authClient.useSession();
+
+  console.log(session);
+
   return (
     <section className={cn("py-4 ", className)}>
       <div className="container  mx-auto px-4">

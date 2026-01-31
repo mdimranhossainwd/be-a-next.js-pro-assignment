@@ -7,8 +7,8 @@ const AUTH_URL = env.NEXT_PUBLIC_AUTH_URL;
 
 export const authClient = createAuthClient({
   //you can pass client configuration here
-  baseURL: `${AUTH_URL}/api/auth`,
-  fetchOptions: {
-    credentials: "include",
-  },
+  // baseURL: `${AUTH_URL}/api/auth`,
+  // fetchOptions: {
+  //   credentials: "include",
+  // },
 });

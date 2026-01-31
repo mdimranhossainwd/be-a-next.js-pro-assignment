@@ -54,7 +54,7 @@ const Signup = ({
 
   return (
     <section className={cn("h-screen bg-muted", className)}>
-      <div className="flex h-full items-center justify-center">
+      <div className="w-full h-full pt-6 items-center justify-center">
         <div className="flex flex-col items-center gap-6">
           <a href={logo.url}>
             <img
@@ -70,7 +70,7 @@ const Signup = ({
               e.preventDefault();
               form.handleSubmit();
             }}
-            className="flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border bg-background px-6 py-8 shadow-md"
+            className="flex w-full max-w-md flex-col items-center gap-y-4 rounded-md border bg-background px-6 py-8 shadow-md"
           >
             <h1 className="text-xl font-semibold">{heading}</h1>
 
@@ -178,6 +178,7 @@ const Signup = ({
 
           <div className="flex justify-center gap-1 text-sm text-muted-foreground">
             <p>{signupText}</p>
+
             <a
               href={signupUrl}
               className="font-medium text-primary hover:underline"

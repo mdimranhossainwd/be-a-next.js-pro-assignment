@@ -59,7 +59,7 @@ const Login = ({
   return (
     <section className={cn("h-screen bg-muted", className)}>
       <div className="flex h-full items-center justify-center">
-        <div className="flex flex-col items-center gap-6 lg:justify-start">
+        <div className="w-full max-w-md mx-auto flex flex-col items-center gap-6">
           {/* Logo */}
           <a href={logo.url}>
             <img
@@ -76,7 +76,7 @@ const Login = ({
               e.preventDefault();
               form.handleSubmit();
             }}
-            className="flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border bg-background px-6 py-8 shadow-md"
+            className="flex w-full flex-col items-center gap-y-4 rounded-md border bg-background px-8 py-10 shadow-md"
           >
             <h1 className="text-xl font-semibold">{heading}</h1>
 
