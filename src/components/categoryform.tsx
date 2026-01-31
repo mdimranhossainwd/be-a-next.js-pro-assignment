@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@/env";
 import { useForm } from "react-hook-form";
 
 type CategoryFormData = {
@@ -7,6 +8,8 @@ type CategoryFormData = {
   slug: string;
   isActive: boolean;
 };
+
+const API_URL = env.API_URL;
 
 export default function CategoryForm() {
   const {
@@ -22,7 +25,7 @@ export default function CategoryForm() {
 
   const onSubmit = async (data: CategoryFormData) => {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/categories", {
+      const res = await fetch(`${API_URL}/categories`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

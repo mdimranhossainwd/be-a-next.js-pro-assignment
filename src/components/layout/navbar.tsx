@@ -19,7 +19,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 
 interface MenuItem {
@@ -80,10 +79,6 @@ const Navbar = ({
   },
   className,
 }: Navbar1Props) => {
-  const { data: session } = authClient.useSession();
-
-  console.log({ Session: session });
-
   return (
     <section className={cn("py-4 ", className)}>
       <div className="container  mx-auto px-4">
@@ -155,22 +150,12 @@ const Navbar = ({
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
-                    {session ? (
-                      <Button asChild variant="outline" size="sm">
-                        Logout
-                      </Button>
-                    ) : (
-                      <>
-                        <Button asChild variant="outline" size="sm">
-                          <Link href={auth.login.url}>{auth.login.title}</Link>
-                        </Button>
-                        <Button asChild size="sm">
-                          <Link href={auth.signup.url}>
-                            {auth.signup.title}
-                          </Link>
-                        </Button>
-                      </>
-                    )}
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={auth.login.url}>{auth.login.title}</Link>
+                    </Button>
+                    <Button asChild size="sm">
+                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                    </Button>
                   </div>
                 </div>
               </SheetContent>

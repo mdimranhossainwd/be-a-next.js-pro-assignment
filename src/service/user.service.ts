@@ -1,14 +1,15 @@
 import { env } from "@/env";
 import { cookies } from "next/headers";
 
-const AUTH_URL = env.AUTH_URL;
+const AUTH_URL = env.NEXT_PUBLIC_AUTH_URL;
+const API_URL = env.API_URL;
 
 export const userService = {
-  getSession: async function () {
+  getSession: async () => {
     try {
       const cookieStore = await cookies();
 
-      const res = await fetch(`${AUTH_URL}/get-session`, {
+      const res = await fetch(`${AUTH_URL}/api/auth/get-session`, {
         headers: {
           Cookie: cookieStore.toString(),
         },
@@ -17,20 +18,21 @@ export const userService = {
 
       const session = await res.json();
 
-      if (session === null) {
-        return { data: null, error: { message: "Session is missing." } };
+      console.log(session);
+
+      if (!session || !session.user) {
+        return { data: null, error: { message: "Session missing" } };
       }
 
-      return { data: session, error: null };
+      return { data: session.user, error: null };
     } catch (err) {
-      console.error(err);
-      return { data: null, error: { message: "Something Went Wrong" } };
+      return { data: null, error: { message: "Failed to fetch session" } };
     }
   },
   getAllUsers: async function () {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(`http://localhost:3000/api/v1/admin/users`, {
+      const res = await fetch(`${API_URL}/admin/users`, {
         headers: {
           Cookie: cookieStore.toString(),
         },
@@ -50,7 +52,7 @@ export const userService = {
   getCurrentUser: async function () {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(`http://localhost:3000/api/v1/me`, {
+      const res = await fetch(`${API_URL}/me`, {
         headers: {
           Cookie: cookieStore.toString(),
         },

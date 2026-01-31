@@ -1,9 +1,12 @@
 "use client";
 
 import Card from "@/components/ui/card";
+import { env } from "@/env";
 import { Tutor } from "@/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
+const API_URL = env.NEXT_PUBLIC_API_URL;
 
 export default function TutorList() {
   const router = useRouter();
@@ -38,9 +41,7 @@ export default function TutorList() {
       if (rating) query.append("rating", rating);
       if (price) query.append("price", price);
 
-      const res = await fetch(
-        `http://localhost:3000/api/v1/tutor?${query.toString()}`,
-      );
+      const res = await fetch(`${API_URL}/tutor?${query.toString()}`);
       const data = await res.json();
 
       setTutors(Array.isArray(data?.data) ? data.data : []);
