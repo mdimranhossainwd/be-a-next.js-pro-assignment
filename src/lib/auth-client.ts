@@ -5,4 +5,7 @@ import { createAuthClient } from "better-auth/react"; // make sure to import fro
 export const authClient = createAuthClient({
   // you can pass client configuration here
   // baseURL: "https://be-a-next-js-pro-assignment.vercel.app",
+  fetchOptions: {
+    credentials: "include",
+  },
 });
