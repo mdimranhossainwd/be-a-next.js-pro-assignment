@@ -57,17 +57,14 @@ export default function TutorProfileForm() {
         isVerified: values.isVerified,
       };
       console.log("Payload:", payload);
-      const response = await fetch(
-        "https://be-a-prisma-pro-assignment.vercel.app/api/v1/tutor",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(payload),
+      const response = await fetch("http://localhost:3000/api/v1/tutor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+        body: JSON.stringify(payload),
+      });
       const data = await response.json();
       console.log("Backend Response:", data);
 
@@ -87,7 +84,9 @@ export default function TutorProfileForm() {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Tutor Profile Form</h1>
+      <h1 className="text-3xl text-center font-bold mb-6">
+        Tutor Profile Form
+      </h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
@@ -95,7 +94,7 @@ export default function TutorProfileForm() {
           <input
             {...register("title")}
             placeholder="Enter your title"
-            className="input w-full"
+            className="input w-full border py-2 px-2"
           />
         </div>
 
@@ -104,7 +103,7 @@ export default function TutorProfileForm() {
           <textarea
             {...register("bio")}
             placeholder="Write a short bio"
-            className="input w-full h-24"
+            className="input w-full h-24  border py-2 px-2"
           />
         </div>
 
@@ -115,7 +114,7 @@ export default function TutorProfileForm() {
               {...register("hourlyRate")}
               type="number"
               placeholder="e.g. 35.5"
-              className="input w-full"
+              className="input w-full border py-2 px-2"
             />
           </div>
           <div>
@@ -124,7 +123,7 @@ export default function TutorProfileForm() {
               {...register("experienceYears")}
               type="number"
               placeholder="e.g. 5"
-              className="input w-full"
+              className="input w-full border py-2 px-2"
             />
           </div>
         </div>
@@ -136,7 +135,7 @@ export default function TutorProfileForm() {
           <input
             {...register("categoryId")}
             placeholder="Enter category ID"
-            className="input w-full"
+            className="input w-full border py-2 px-2"
           />
         </div>
 
@@ -145,7 +144,7 @@ export default function TutorProfileForm() {
           <input
             {...register("subjects")}
             placeholder="Enter subjects separated by commas"
-            className="input w-full"
+            className="input w-full border py-2 px-2"
           />
         </div>
 
@@ -177,12 +176,12 @@ export default function TutorProfileForm() {
             <input
               type="time"
               {...register("availabilityHours.0")}
-              className="input"
+              className="input border py-2 px-2"
             />
             <input
               type="time"
               {...register("availabilityHours.1")}
-              className="input"
+              className="input border py-2 px-2"
             />
           </div>
         </div>

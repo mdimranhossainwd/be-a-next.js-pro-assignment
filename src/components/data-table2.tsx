@@ -152,104 +152,112 @@ export const TutorProfileTable = ({ tutors }: any) => {
       <section className="py-6 mx-5">
         <div className="container">
           <div className="overflow-hidden rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Subjects</TableHead>
-                  <TableHead>Experience</TableHead>
-                  <TableHead>Hourly Rate</TableHead>
-                  <TableHead>Rating</TableHead>
-                  <TableHead>Availability</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-
-              <TableBody>
-                {tutors?.data.map((tutor: any) => (
-                  <TableRow key={tutor.id}>
-                    <TableCell className="font-medium">{tutor.title}</TableCell>
-
-                    <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {tutor.subjects.slice(0, 3).map((subject: any, i) => (
-                          <Badge
-                            key={i}
-                            variant="secondary"
-                            className="text-xs"
-                          >
-                            {subject}
-                          </Badge>
-                        ))}
-                        {tutor.subjects.length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{tutor.subjects.length - 3}
-                          </Badge>
-                        )}
-                      </div>
-                    </TableCell>
-
-                    <TableCell>{tutor.experienceYears} years</TableCell>
-
-                    <TableCell className="font-semibold">
-                      ${tutor.hourlyRate}/hr
-                    </TableCell>
-
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        <span className="font-medium">{tutor.avgRating}</span>
-                        <span className="text-yellow-500">★</span>
-                        <span className="text-sm text-muted-foreground">
-                          ({tutor.totalReviews})
-                        </span>
-                      </div>
-                    </TableCell>
-
-                    <TableCell>
-                      <div className="text-sm">
-                        <div className="font-medium">
-                          {tutor.availability.days.slice(0, 2).join(", ")}
-                          {tutor.availability.days.length > 2 && "..."}
-                        </div>
-                        <div className="text-muted-foreground text-xs">
-                          {tutor.availability.hours[0]} -{" "}
-                          {tutor.availability.hours[1]}
-                        </div>
-                      </div>
-                    </TableCell>
-
-                    <TableCell>
-                      {tutor.isVerified ? (
-                        <Badge variant="default" className="bg-green-500">
-                          Verified ✓
-                        </Badge>
-                      ) : (
-                        <Badge variant="secondary">Pending</Badge>
-                      )}
-                    </TableCell>
-
-                    <TableCell>
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleEditClick(tutor)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          size="sm"
-                          onClick={() => handleAvailabilityClick(tutor)}
-                        >
-                          Slot
-                        </Button>
-                      </div>
-                    </TableCell>
+            {tutors?.data.length === 0 ? (
+              <div className="text-center py-10 text-gray-500">
+                No tutors found
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Subjects</TableHead>
+                    <TableHead>Experience</TableHead>
+                    <TableHead>Hourly Rate</TableHead>
+                    <TableHead>Rating</TableHead>
+                    <TableHead>Availability</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+
+                <TableBody>
+                  {tutors?.data.map((tutor: any) => (
+                    <TableRow key={tutor.id}>
+                      <TableCell className="font-medium">
+                        {tutor.title}
+                      </TableCell>
+
+                      <TableCell>
+                        <div className="flex flex-wrap gap-1">
+                          {tutor.subjects.slice(0, 3).map((subject: any, i) => (
+                            <Badge
+                              key={i}
+                              variant="secondary"
+                              className="text-xs"
+                            >
+                              {subject}
+                            </Badge>
+                          ))}
+                          {tutor.subjects.length > 3 && (
+                            <Badge variant="outline" className="text-xs">
+                              +{tutor.subjects.length - 3}
+                            </Badge>
+                          )}
+                        </div>
+                      </TableCell>
+
+                      <TableCell>{tutor.experienceYears} years</TableCell>
+
+                      <TableCell className="font-semibold">
+                        ${tutor.hourlyRate}/hr
+                      </TableCell>
+
+                      <TableCell>
+                        <div className="flex items-center gap-1">
+                          <span className="font-medium">{tutor.avgRating}</span>
+                          <span className="text-yellow-500">★</span>
+                          <span className="text-sm text-muted-foreground">
+                            ({tutor.totalReviews})
+                          </span>
+                        </div>
+                      </TableCell>
+
+                      <TableCell>
+                        <div className="text-sm">
+                          <div className="font-medium">
+                            {tutor.availability.days.slice(0, 2).join(", ")}
+                            {tutor.availability.days.length > 2 && "..."}
+                          </div>
+                          <div className="text-muted-foreground text-xs">
+                            {tutor.availability.hours[0]} -{" "}
+                            {tutor.availability.hours[1]}
+                          </div>
+                        </div>
+                      </TableCell>
+
+                      <TableCell>
+                        {tutor.isVerified ? (
+                          <Badge variant="default" className="bg-green-500">
+                            Verified ✓
+                          </Badge>
+                        ) : (
+                          <Badge variant="secondary">Pending</Badge>
+                        )}
+                      </TableCell>
+
+                      <TableCell>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleEditClick(tutor)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            size="sm"
+                            onClick={() => handleAvailabilityClick(tutor)}
+                          >
+                            Slot
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
           </div>
         </div>
       </section>

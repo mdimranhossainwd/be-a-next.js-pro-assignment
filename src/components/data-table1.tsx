@@ -109,6 +109,7 @@ export const DataTable1 = ({ bookings }) => {
   return (
     <section className="py-6 mx-5">
       <div className="container">
+        <h2 className="text-3xl text-center font-bold mb-5">My Bookings </h2>
         <div className="overflow-hidden rounded-md border">
           <Table>
             <TableHeader>
@@ -126,70 +127,73 @@ export const DataTable1 = ({ bookings }) => {
             </TableHeader>
 
             <TableBody>
-              {localBookings.map((b) => {
-                const sessionOver = isSessionOver(b.sessionDate, b.endTime);
+              {localBookings.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={9} className="text-center py-4">
+                    No bookings found
+                  </TableCell>
+                </TableRow>
+              ) : (
+                localBookings.map((b) => {
+                  const sessionOver = isSessionOver(b.sessionDate, b.endTime);
 
-                return (
-                  <TableRow key={b.id}>
-                    <TableCell className="font-medium">
-                      {b.student?.name}
-                    </TableCell>
-                    <TableCell>{b.tutor?.title}</TableCell>
-                    <TableCell>
-                      {new Date(b.sessionDate).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>
-                      {b.startTime} - {b.endTime}
-                    </TableCell>
-
-                    <TableCell>
-                      <select
-                        value={b.status}
-                        disabled={b.status !== "CONFIRMED"}
-                        className={`border rounded px-2 py-1 text-sm ${
-                          b.status === "CANCELLED"
-                            ? "bg-red-100 text-red-700"
-                            : b.status === "COMPLETED"
-                              ? "bg-green-100 text-green-700"
-                              : ""
-                        }`}
-                        onChange={() => handleCancel(b.id)}
-                      >
-                        <option value="CONFIRMED">CONFIRMED</option>
-                        <option value="CANCELLED">CANCELLED</option>
-                        <option value="COMPLETED">COMPLETED</option>
-                      </select>
-                    </TableCell>
-
-                    <TableCell>$25/hr</TableCell>
-
-                    <TableCell>
-                      <Button
-                        disabled={!sessionOver}
-                        onClick={() => openReviewModal(b)}
-                      >
-                        Leave Review
-                      </Button>
-                    </TableCell>
-
-                    <TableCell>
-                      {new Date(b.createdAt).toLocaleDateString()}
-                    </TableCell>
-
-                    <TableCell>
-                      <Button
-                        disabled={
-                          b.status !== "CONFIRMED" || loadingId === b.id
-                        }
-                        onClick={() => handleCancel(b.id)}
-                        className="px-3 py-1 text-sm"
-                      >
-                        {loadingId === b.id ? "Cancelling..." : "Cancel"}
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                  return (
+                    <TableRow key={b.id}>
+                      <TableCell className="font-medium">
+                        {b.student?.name}
+                      </TableCell>
+                      <TableCell>{b.tutor?.title}</TableCell>
+                      <TableCell>
+                        {new Date(b.sessionDate).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        {b.startTime} - {b.endTime}
+                      </TableCell>
+                      <TableCell>
+                        <select
+                          value={b.status}
+                          disabled={b.status !== "CONFIRMED"}
+                          className={`border rounded px-2 py-1 text-sm ${
+                            b.status === "CANCELLED"
+                              ? "bg-red-100 text-red-700"
+                              : b.status === "COMPLETED"
+                                ? "bg-green-100 text-green-700"
+                                : ""
+                          }`}
+                          onChange={() => handleCancel(b.id)}
+                        >
+                          <option value="CONFIRMED">CONFIRMED</option>
+                          <option value="CANCELLED">CANCELLED</option>
+                          <option value="COMPLETED">COMPLETED</option>
+                        </select>
+                      </TableCell>
+                      <TableCell>$25/hr</TableCell>
+                      <TableCell>
+                        <Button
+                          disabled={!sessionOver}
+                          onClick={() => openReviewModal(b)}
+                        >
+                          Leave Review
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        {new Date(b.createdAt).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          disabled={
+                            b.status !== "CONFIRMED" || loadingId === b.id
+                          }
+                          onClick={() => handleCancel(b.id)}
+                          className="px-3 py-1 text-sm"
+                        >
+                          {loadingId === b.id ? "Cancelling..." : "Cancel"}
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
             </TableBody>
           </Table>
         </div>

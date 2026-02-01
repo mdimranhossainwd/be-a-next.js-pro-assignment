@@ -1,11 +1,3 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { tutorService } from "@/tutor.service";
 import { Star } from "lucide-react";
 
@@ -22,34 +14,41 @@ export default async function MyTutorPage() {
       {reviews.length === 0 ? (
         <p className="text-gray-500 mt-4">No reviews found.</p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Student</TableHead>
-                <TableHead>Rating</TableHead>
-                <TableHead>Comment</TableHead>
-                <TableHead>Date</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {reviews.map((r: any) => (
-                <TableRow key={r.id}>
-                  <TableCell className="font-medium">
-                    {r.student?.name || "Unknown"}
-                  </TableCell>
-                  <TableCell className="flex items-center gap-1">
+        <div className="grid gap-4">
+          {reviews.map((r: any) => {
+            const firstLetter = r.student?.name?.[0]?.toUpperCase() || "U";
+
+            return (
+              <div
+                key={r.id}
+                className="flex items-start gap-4 p-4 border rounded-lg shadow-sm hover:shadow-md transition"
+              >
+                {/* Avatar */}
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 text-white font-semibold text-lg">
+                  {firstLetter}
+                </div>
+
+                {/* Review content */}
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <h2 className="font-medium">
+                      {r.student?.name || "Unknown"}
+                    </h2>
+                    <span className="text-sm text-gray-400">
+                      {new Date(r.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1 mt-1">
                     <Star className="h-4 w-4 text-yellow-400" />
-                    {r.rating}
-                  </TableCell>
-                  <TableCell>{r.comment}</TableCell>
-                  <TableCell>
-                    {new Date(r.createdAt).toLocaleDateString()}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                    <span className="font-medium">{r.rating}</span>
+                  </div>
+
+                  <p className="mt-2 text-gray-700">{r.comment}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 type User = {
   id: string;
@@ -18,16 +19,13 @@ export default function UserTable({ users }) {
     try {
       setLoadingId(userId);
 
-      const res = await fetch(
-        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/status/${userId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status }),
+      const res = await fetch(`http://localhost:3000/api/v1/status/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ status }),
+      });
 
       if (!res.ok) throw new Error("Failed to update status");
 
@@ -36,7 +34,7 @@ export default function UserTable({ users }) {
       );
     } catch (error) {
       console.error(error);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     } finally {
       setLoadingId(null);
     }

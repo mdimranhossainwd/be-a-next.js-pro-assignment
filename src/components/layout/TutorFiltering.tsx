@@ -41,7 +41,9 @@ export default function TutorList() {
       if (rating) query.append("rating", rating);
       if (price) query.append("price", price);
 
-      const res = await fetch(`${API_URL}/tutor?${query.toString()}`);
+      const res = await fetch(
+        `http://localhost:3000/api/v1/tutor?${query.toString()}`,
+      );
       const data = await res.json();
 
       setTutors(Array.isArray(data?.data) ? data.data : []);

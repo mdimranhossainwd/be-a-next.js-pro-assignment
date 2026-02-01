@@ -73,10 +73,6 @@ const Navbar = ({
       title: "About",
       url: "/about",
     },
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-    },
   ],
   auth = {
     login: { title: "Login", url: "/login" },
@@ -88,6 +84,10 @@ const Navbar = ({
   const { data: session } = authClient.useSession();
 
   console.log(session);
+
+  const handleLogout = async () => {
+    await authClient.signOut();
+  };
 
   return (
     <section className={cn("py-4 ", className)}>
@@ -112,14 +112,15 @@ const Navbar = ({
             </NavigationMenu>
           </div>
 
-          {session ? (
-            <div>
-              <Button asChild variant="outline" size="sm">
-                <Link href={auth.logout.url}>{auth.logout.title}</Link>
+          {session?.user ? (
+            <div className="flex items-center gap-3">
+              <Link href="/dashboard">Dashboard</Link>
+              <Button size="sm" onClick={handleLogout}>
+                Logout
               </Button>
             </div>
           ) : (
-            <div className="flex gap-2">
+            <div className="flex  gap-3">
               <Button asChild variant="outline" size="sm">
                 <Link href={auth.login.url}>{auth.login.title}</Link>
               </Button>
@@ -168,14 +169,23 @@ const Navbar = ({
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
 
-                  <div className="flex flex-col gap-3">
-                    <Button asChild variant="outline" size="sm">
-                      <Link href={auth.login.url}>{auth.login.title}</Link>
-                    </Button>
-                    <Button asChild size="sm">
-                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                    </Button>
-                  </div>
+                  {session?.user ? (
+                    <div>
+                      <Button size="sm" onClick={handleLogout}>
+                        Logout
+                      </Button>
+                      <Link href="/dashboard">Dashboard</Link>
+                    </div>
+                  ) : (
+                    <div className="flex  gap-3">
+                      <Button asChild variant="outline" size="sm">
+                        <Link href={auth.login.url}>{auth.login.title}</Link>
+                      </Button>
+                      <Button asChild size="sm">
+                        <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

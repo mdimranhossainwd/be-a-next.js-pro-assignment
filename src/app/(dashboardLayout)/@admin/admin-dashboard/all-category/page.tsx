@@ -9,6 +9,9 @@ export default async function CategoryPage() {
 
   return (
     <div>
+      <div className="py-5 text-3xl font-bold text-center">
+        <h2>All Category Management </h2>
+      </div>
       <CategoryTable categories={category} />
     </div>
   );

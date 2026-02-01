@@ -6,5 +6,7 @@ export default async function MyTutorBooking() {
   const { data: bookings } = await bookingService.getTutorBookings();
   console.log(bookings);
 
-  return <DataTable3 bookings={bookings} />;
+  return;
+
+  <DataTable3 bookings={bookings} />;
 }

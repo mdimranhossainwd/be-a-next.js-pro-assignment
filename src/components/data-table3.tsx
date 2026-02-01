@@ -52,55 +52,65 @@ export const DataTable3 = ({ bookings }) => {
     <section className="py-6 mx-5">
       <div className="container">
         <div className="overflow-hidden rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Student</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Time</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Rate</TableHead>
-                <TableHead>Booked At</TableHead>
-              </TableRow>
-            </TableHeader>
-
-            <TableBody>
-              {localBookings.map((b) => (
-                <TableRow key={b.id}>
-                  <TableCell className="font-medium">
-                    {b.student?.name}
-                  </TableCell>
-                  <TableCell>
-                    {new Date(b.sessionDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    {b.startTime} - {b.endTime}
-                  </TableCell>
-
-                  <TableCell>
-                    <select
-                      value={b.status}
-                      disabled={loadingId === b.id || b.status === "CANCELLED"}
-                      className={`border rounded px-2 py-1 text-sm ${
-                        b.status === "COMPLETED"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}
-                      onChange={(e) => handleStatusChange(b.id, e.target.value)}
-                    >
-                      <option value="CONFIRMED">CONFIRMED</option>
-                      <option value="COMPLETED">COMPLETED</option>
-                    </select>
-                  </TableCell>
-
-                  <TableCell>$25/hr</TableCell>
-                  <TableCell>
-                    {new Date(b.createdAt).toLocaleDateString()}
-                  </TableCell>
+          {localBookings.length === 0 ? (
+            <div className="text-center py-10 text-gray-500">
+              No bookings found
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Student</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Time</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Rate</TableHead>
+                  <TableHead>Booked At</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+
+              <TableBody>
+                {localBookings.map((b) => (
+                  <TableRow key={b.id}>
+                    <TableCell className="font-medium">
+                      {b.student?.name}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(b.sessionDate).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      {b.startTime} - {b.endTime}
+                    </TableCell>
+
+                    <TableCell>
+                      <select
+                        value={b.status}
+                        disabled={
+                          loadingId === b.id || b.status === "CANCELLED"
+                        }
+                        className={`border rounded px-2 py-1 text-sm ${
+                          b.status === "COMPLETED"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}
+                        onChange={(e) =>
+                          handleStatusChange(b.id, e.target.value)
+                        }
+                      >
+                        <option value="CONFIRMED">CONFIRMED</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                      </select>
+                    </TableCell>
+
+                    <TableCell>$25/hr</TableCell>
+                    <TableCell>
+                      {new Date(b.createdAt).toLocaleDateString()}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </div>
       </div>
     </section>

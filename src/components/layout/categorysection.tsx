@@ -4,7 +4,7 @@ import CategoryCard from "../category-card";
 const API_URL = env.API_URL;
 
 async function getCategories() {
-  const res = await fetch(`${API_URL}/categories`, {
+  const res = await fetch(`http://localhost:3000/api/v1/categories`, {
     cache: "no-store",
   });
 

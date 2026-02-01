@@ -9,7 +9,7 @@ export const userService = {
     try {
       const cookieStore = await cookies();
 
-      const res = await fetch(`${AUTH_URL}/api/auth/get-session`, {
+      const res = await fetch(`http://localhost:3000/api/auth/get-session`, {
         headers: {
           Cookie: cookieStore.toString(),
         },
@@ -32,7 +32,7 @@ export const userService = {
   getAllUsers: async function () {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(`${API_URL}/admin/users`, {
+      const res = await fetch(`http://localhost:3000/api/v1/admin/users`, {
         headers: {
           Cookie: cookieStore.toString(),
         },
@@ -52,7 +52,7 @@ export const userService = {
   getCurrentUser: async function () {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(`${API_URL}/me`, {
+      const res = await fetch(`http://localhost:3000/api/v1/me`, {
         headers: {
           Cookie: cookieStore.toString(),
         },
