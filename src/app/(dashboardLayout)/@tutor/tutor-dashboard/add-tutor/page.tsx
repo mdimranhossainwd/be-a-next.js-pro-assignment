@@ -57,24 +57,25 @@ export default function TutorProfileForm() {
         isVerified: values.isVerified,
       };
       console.log("Payload:", payload);
-      const response = await fetch(
+      await fetch(
         "https://be-a-prisma-pro-assignment.vercel.app/api/v1/tutor",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${session.session.token}`,
           },
           body: JSON.stringify(payload),
+          credentials: "include",
         },
       );
-      const data = await response.json();
-      console.log("Backend Response:", data);
 
-      if (!response.ok) {
-        toast.error(data.message || "Failed to submit");
-        return;
-      }
+      // const data = await response.json();
+      // console.log("Backend Response:", data);
+
+      // if (!response.ok) {
+      //   toast.error(data.message || "Failed to submit");
+      //   return;
+      // }
 
       toast.success("Tutor profile submitted!");
     } catch (err) {

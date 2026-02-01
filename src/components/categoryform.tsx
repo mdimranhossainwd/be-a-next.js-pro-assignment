@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 type CategoryFormData = {
   name: string;
@@ -41,10 +42,10 @@ export default function CategoryForm() {
       console.log("Category created:", result);
 
       reset();
-      alert("Category created successfully");
+      toast.success("Category created successfully");
     } catch (error) {
       console.error(error);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 

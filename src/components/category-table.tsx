@@ -54,7 +54,6 @@ export default function CategoryTable({ categories }: CategoryTableProps) {
         `https://be-a-prisma-pro-assignment.vercel.app/api/v1/categories/${id}`,
         {
           method: "DELETE",
-          credentials: "include",
         },
       );
 
