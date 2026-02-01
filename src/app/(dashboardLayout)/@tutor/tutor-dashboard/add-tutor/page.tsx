@@ -63,8 +63,8 @@ export default function TutorProfileForm() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${session.session.token}`,
           },
-          credentials: "include",
           body: JSON.stringify(payload),
         },
       );
