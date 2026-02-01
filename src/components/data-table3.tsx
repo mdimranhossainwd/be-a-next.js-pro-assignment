@@ -22,7 +22,7 @@ export const DataTable3 = ({ bookings }) => {
       setLoadingId(bookingId);
 
       const res = await fetch(
-        `http://localhost:3000/api/v1/booking/complete/${bookingId}`,
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/booking/complete/${bookingId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

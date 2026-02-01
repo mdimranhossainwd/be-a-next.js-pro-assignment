@@ -90,12 +90,15 @@ export const TutorProfileTable = ({ tutors }: any) => {
         isVerified: values.isVerified,
       };
 
-      const response = await fetch(`http://localhost:3000/api/v1/profile`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/profile`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(payload),
+        },
+      );
 
       const data = await response.json();
       console.log("Backend Response:", data);
@@ -124,7 +127,7 @@ export const TutorProfileTable = ({ tutors }: any) => {
       console.log("Sending Availability Payload:", payload);
 
       const response = await fetch(
-        `http://localhost:3000/api/v1/availability`,
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/availability`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

@@ -30,7 +30,7 @@ export default function UserTable({ users }) {
       setLoading(true);
 
       const res = await fetch(
-        `http://localhost:3000/api/v1/name/${selected.id}`,
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/name/${selected.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

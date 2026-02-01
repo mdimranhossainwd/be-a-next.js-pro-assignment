@@ -9,12 +9,15 @@ export const userService = {
     try {
       const cookieStore = await cookies();
 
-      const res = await fetch(`http://localhost:3000/api/auth/get-session`, {
-        headers: {
-          Cookie: cookieStore.toString(),
+      const res = await fetch(
+        `https://be-a-prisma-pro-assignment.vercel.app/api/auth/get-session`,
+        {
+          headers: {
+            Cookie: cookieStore.toString(),
+          },
+          cache: "no-store",
         },
-        cache: "no-store",
-      });
+      );
 
       const session = await res.json();
 
@@ -32,12 +35,15 @@ export const userService = {
   getAllUsers: async function () {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(`http://localhost:3000/api/v1/admin/users`, {
-        headers: {
-          Cookie: cookieStore.toString(),
+      const res = await fetch(
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/admin/users`,
+        {
+          headers: {
+            Cookie: cookieStore.toString(),
+          },
+          cache: "no-store",
         },
-        cache: "no-store",
-      });
+      );
       const users = await res.json();
       if (users === null) {
         return { data: null, error: { message: "No users found." } };
@@ -52,12 +58,15 @@ export const userService = {
   getCurrentUser: async function () {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(`http://localhost:3000/api/v1/me`, {
-        headers: {
-          Cookie: cookieStore.toString(),
+      const res = await fetch(
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/me`,
+        {
+          headers: {
+            Cookie: cookieStore.toString(),
+          },
+          cache: "no-store",
         },
-        cache: "no-store",
-      });
+      );
       const users = await res.json();
       if (users === null) {
         return { data: null, error: { message: "No users found." } };

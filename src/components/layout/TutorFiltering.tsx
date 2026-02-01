@@ -42,7 +42,7 @@ export default function TutorList() {
       if (price) query.append("price", price);
 
       const res = await fetch(
-        `http://localhost:3000/api/v1/tutor?${query.toString()}`,
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/tutor?${query.toString()}`,
       );
       const data = await res.json();
 

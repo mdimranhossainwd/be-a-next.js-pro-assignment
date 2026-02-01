@@ -28,19 +28,22 @@ export default function BookingForm({ tutorId }: BookingFormProps) {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:3000/api/v1/booking", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "https://be-a-prisma-pro-assignment.vercel.app/api/v1/booking",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            tutorId,
+            sessionDate,
+            startTime,
+            endTime,
+          }),
         },
-        credentials: "include",
-        body: JSON.stringify({
-          tutorId,
-          sessionDate,
-          startTime,
-          endTime,
-        }),
-      });
+      );
 
       const data = await res.json();
 

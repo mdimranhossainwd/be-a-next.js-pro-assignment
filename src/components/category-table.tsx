@@ -22,7 +22,7 @@ export default function CategoryTable({ categories }: CategoryTableProps) {
       setLoading(true);
 
       const res = await fetch(
-        `http://localhost:3000/api/v1/categories/${selected.id}`,
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/categories/${selected.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -50,10 +50,13 @@ export default function CategoryTable({ categories }: CategoryTableProps) {
 
   const deleteCategory = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/categories/${id}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/categories/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
 
       if (!res.ok) throw new Error("Delete failed");
 

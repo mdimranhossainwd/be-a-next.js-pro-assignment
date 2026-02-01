@@ -22,13 +22,16 @@ export default function CategoryForm() {
 
   const onSubmit = async (data: CategoryFormData) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/categories`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/categories`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
 
       if (!res.ok) {
         throw new Error("Failed to create category");
@@ -46,7 +49,10 @@ export default function CategoryForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-md mx-auto">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-4 max-w-md mx-auto"
+    >
       <div>
         <label className="block mb-1 font-medium">Name</label>
         <input

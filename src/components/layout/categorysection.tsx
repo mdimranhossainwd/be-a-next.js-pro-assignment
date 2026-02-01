@@ -4,9 +4,12 @@ import CategoryCard from "../category-card";
 const API_URL = env.API_URL;
 
 async function getCategories() {
-  const res = await fetch(`http://localhost:3000/api/v1/categories`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `https://be-a-prisma-pro-assignment.vercel.app/api/v1/categories`,
+    {
+      cache: "no-store",
+    },
+  );
 
   const data = await res.json();
   return data?.data || [];

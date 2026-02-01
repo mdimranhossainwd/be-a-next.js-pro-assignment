@@ -49,7 +49,7 @@ export const DataTable1 = ({ bookings }) => {
     try {
       setLoadingId(bookingId);
       const res = await fetch(
-        `http://localhost:3000/api/v1/booking/${bookingId}`,
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/booking/${bookingId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -85,17 +85,20 @@ export const DataTable1 = ({ bookings }) => {
       return toast.error("Please provide rating & comment");
 
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/review`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          bookingId: currentBooking.id,
-          tutorId: currentBooking.tutor.id,
-          rating,
-          comment,
-        }),
-      });
+      const res = await fetch(
+        `https://be-a-prisma-pro-assignment.vercel.app/api/v1/review`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            bookingId: currentBooking.id,
+            tutorId: currentBooking.tutor.id,
+            rating,
+            comment,
+          }),
+        },
+      );
       if (!res.ok) throw new Error("Failed to submit review");
 
       toast.success("Review submitted successfully!");
