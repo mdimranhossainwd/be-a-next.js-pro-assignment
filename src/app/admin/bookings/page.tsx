@@ -1,11 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  adminService,
-  type AdminBookingSummary,
-} from "@/lib/services/admin.service";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -13,8 +9,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+import {
+  adminService,
+  type AdminBookingSummary,
+} from "@/lib/services/admin.service";
 import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function AdminBookingsPage() {
@@ -31,8 +31,6 @@ export default function AdminBookingsPage() {
     try {
       const data = await adminService.getBookings({
         status: statusFilter === "ALL" ? undefined : statusFilter,
-        // For simplicity we only support filtering by status from backend;
-        // tutor/student filters are applied client-side by search.
       });
       setBookings(data);
     } catch (error) {
@@ -45,7 +43,6 @@ export default function AdminBookingsPage() {
 
   useEffect(() => {
     void loadBookings();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter]);
 
   const filtered = bookings.filter((b) => {

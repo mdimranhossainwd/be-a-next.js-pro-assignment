@@ -1,37 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# [SkillBridge](https://be-a-next-js-pro-assignment.vercel.app)
+
+---
+
+## Project Overview
+
+**SkillBridge** is a student-centric course management system built as a Personal project. The platform bridges the gap between **students looking for tutoring help** and **skilled tutors** who want to teach all under one roof.
+
+Students can explore available courses and categories, find the right tutor, book a session, and after the session is complete, leave a review. Meanwhile, tutors manage their own profiles and courses, while **Admins** have full control over users, bookings, categories, and platform activity.
+
+---
+
+## Key Features
+
+| Feature                      | Description                                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------------------------- |
+| **Course & Tutor Browse**    | Students can explore all available courses and filter by category to find the perfect tutor |
+| **Tutor Booking**            | Students can book a session with any available tutor in just a few clicks                   |
+| **Review & Rating**          | After a booking is completed, students can rate and review the tutor                        |
+| **Tutor Profile Management** | Tutors can create and update their own profile & courses                                    |
+| **User Management**          | Admins can add, edit, block, or delete user accounts                                        |
+| **Booking Management**       | Admins can view, approve, cancel, or update all bookings across the platform                |
+| **Category Management**      | Admins can create, edit, and remove course categories                                       |
+| **Role-Based Access**        | Three distinct roles Student, Tutor, Admin each with their own permissions                  |
+| **Responsive Design**        | Fully responsive UI that works on desktop, tablet, and mobile                               |
+
+---
+
+## User Roles & Permissions
+
+SkillBridge has **3 core roles**, each with a clearly defined set of responsibilities:
+
+### Student
+
+- Browse all courses and categories
+- View tutor profiles and ratings
+- Book a tutor session
+- Leave a review & rating after booking is completed
+
+### Tutor
+
+- Create and manage their own tutor profile
+- Add and update their courses
+- View their own bookings and received reviews
+
+### Admin
+
+- **Full access** to the platform dashboard
+- Manage all **users**
+- Manage all **bookings**
+- Manage all **categories**
+- View platform-wide analytics and activity
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v18+ recommended)
+- [PostgreSQL](https://www.mongodb.com/) (
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) or [pnpm](https://yarnpkg.com/)
+
+---
+
+### 1️⃣ Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/mdimranhossainwd/be-a-next.js-pro-assignment
+cd be-a-next.js-pro-assignment
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 5️⃣ Install Frontend Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open a new terminal:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cd be-a-next.js-pro-assignment
+npm install
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# SkillBridge-client
+</div>

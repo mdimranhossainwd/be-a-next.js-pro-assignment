@@ -53,8 +53,6 @@ export default function MyBookingsPage() {
   };
 
   const handleCancelBooking = async (id: string) => {
-    if (!confirm("Are you sure you want to cancel this booking?")) return;
-
     try {
       await bookingService.cancelBooking(id);
       toast.success("Booking cancelled successfully");
@@ -67,8 +65,6 @@ export default function MyBookingsPage() {
   };
 
   const handleCompleteBooking = async (id: string) => {
-    if (!confirm("Have you completed this session with the tutor?")) return;
-
     try {
       await bookingService.completeBooking(id);
       toast.success("Booking completed successfully");
