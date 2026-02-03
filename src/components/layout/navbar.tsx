@@ -1,220 +1,276 @@
 "use client";
 
-import { Menu } from "lucide-react";
-
-import { cn } from "@/lib/utils";
-
-import { Accordion } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { authClient } from "@/lib/auth-client";
-import Link from "next/link";
+  MobileNav,
+  MobileNavHeader,
+  MobileNavMenu,
+  MobileNavToggle,
+  Navbar,
+  NavbarButton,
+  NavbarLogo,
+  NavBody,
+  NavItems,
+} from "@/components/ui/resizable-navbar";
+import { authService } from "@/lib/services";
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
+// import { ModeToggle } from "@/components/ui/ModeToggle";
 
-interface MenuItem {
-  title: string;
-  url: string;
-  description?: string;
-  icon?: React.ReactNode;
-  items?: MenuItem[];
-}
+type User = {
+  id: string;
+  email: string;
+  name: string;
+  role: "STUDENT" | "TUTOR" | "ADMIN";
+  createdAt: string;
+  updatedAt: string;
+};
 
-interface Navbar1Props {
-  className?: string;
-  logo?: {
-    url: string;
-    src: string;
-    alt: string;
-    title: string;
-    className?: string;
+export function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser) as User);
+      } catch (err) {
+        console.error("Failed to parse user from localStorage", err);
+        setUser(null);
+      }
+    }
+  }, []);
+
+  const navItems = [
+    { name: "Home", link: "/" },
+    { name: "Find Tutors", link: "/tutors" },
+    { name: "About Us", link: "/about-us" },
+  ];
+
+  if (user) {
+    switch (user.role) {
+      case "STUDENT":
+        navItems.push({ name: "Dashboard", link: "/dashboard" });
+        break;
+      case "TUTOR":
+        navItems.push({ name: "Dashboard", link: "/tutor/dashboard" });
+        break;
+      case "ADMIN":
+        navItems.push({ name: "Dashboard", link: "/admin" });
+        break;
+    }
+  }
+
+  const dropdownMenuItem = {
+    name: "Dashboard",
+    link: "/dashboard",
   };
-  menu?: MenuItem[];
-  auth?: {
-    login: {
-      title: string;
-      url: string;
-    };
-    signup: {
-      title: string;
-      url: string;
-    };
-    logout: {
-      title: string;
-      url: string;
-    };
-  };
-}
 
-const Navbar = ({
-  logo = {
-    url: "/",
-    src: "https://i.ibb.co.com/QjczW4vb/145855843-8e8d722b-6a0a-4da0-9ca2-3aba986f49e9-removebg-preview.png",
-    alt: "logo",
-    title: "Skill-Bridge",
-  },
-  menu = [
-    { title: "Home", url: "/" },
-    {
-      title: "Tutor",
-      url: "/tutor",
-    },
-    {
-      title: "About",
-      url: "/about",
-    },
-  ],
-  auth = {
-    login: { title: "Login", url: "/login" },
-    signup: { title: "Register", url: "/register" },
-    logout: { title: "Logout", url: "/logout" },
-  },
-  className,
-}: Navbar1Props) => {
-  const { data: session } = authClient.useSession();
+  if (user) {
+    switch (user.role) {
+      case "STUDENT":
+        dropdownMenuItem.link = "/dashboard";
+        break;
+      case "TUTOR":
+        dropdownMenuItem.link = "/tutor/dashboard";
 
-  console.log(session);
+        break;
+      case "ADMIN":
+        dropdownMenuItem.link = "/admin";
+        break;
+    }
+  }
 
-  const handleLogout = async () => {
-    await authClient.signOut();
+  const handleLogout = () => {
+    authService.logout();
+    setUser(null);
   };
 
   return (
-    <section className={cn("py-4 ", className)}>
-      <div className="container  mx-auto px-4">
-        {/* Desktop Menu */}
-        <nav className="hidden items-center justify-between lg:flex">
-          <div className="flex items-center justify-between gap-6">
-            {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
-              <img src={logo.src} className="max-h-10" alt={logo.alt} />
-              <span className="text-2xl font-bold tracking-tighter">
-                {logo.title}
-              </span>
-            </a>
-          </div>
+    <Navbar>
+      <NavBody>
+        <NavbarLogo />
+        <NavItems items={navItems} />
+        <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                <div className="flex items-center gap-4">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full cursor-pointer"
+                      >
+                        <Avatar>
+                          <AvatarFallback className="font-bold text-primary">
+                            {user.name.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-32">
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem
+                          onClick={() =>
+                            (window.location.href = dropdownMenuItem.link)
+                          }
+                          className="cursor-pointer"
+                        >
+                          {dropdownMenuItem.name}
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem
+                          onClick={handleLogout}
+                          variant="destructive"
+                          className="cursor-pointer"
+                        >
+                          Log out
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
 
-          <div className="flex items-center">
-            <NavigationMenu>
-              <NavigationMenuList>
-                {menu.map((item) => renderMenuItem(item))}
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-
-          {session?.user ? (
-            <div className="flex items-center gap-3">
-              <Link href="/dashboard">Dashboard</Link>
-              <Button size="sm" onClick={handleLogout}>
-                Logout
-              </Button>
-            </div>
-          ) : (
-            <div className="flex  gap-3">
-              <Button asChild variant="outline" size="sm">
-                <Link href={auth.login.url}>{auth.login.title}</Link>
-              </Button>
-              <Button asChild size="sm">
-                <Link href={auth.signup.url}>{auth.signup.title}</Link>
-              </Button>
-            </div>
-          )}
-        </nav>
-
-        {/* Mobile Menu */}
-        <div className="block lg:hidden">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
-              <img
-                src={logo.src}
-                className="max-h-8 dark:invert"
-                alt={logo.alt}
-              />
-            </a>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="size-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="overflow-y-auto">
-                <SheetHeader>
-                  <SheetTitle>
-                    <a href={logo.url} className="flex items-center gap-2">
-                      <img
-                        src={logo.src}
-                        className="max-h-8 dark:invert"
-                        alt={logo.alt}
-                      />
-                    </a>
-                  </SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-6 p-4">
-                  <Accordion
-                    type="single"
-                    collapsible
-                    className="flex w-full flex-col gap-4"
+                  <NavbarButton
+                    className="dark:bg-primary dark:text-white"
+                    href="/contact"
                   >
-                    {menu.map((item) => renderMobileMenuItem(item))}
-                  </Accordion>
-
-                  {session?.user ? (
-                    <div>
-                      <Button size="sm" onClick={handleLogout}>
-                        Logout
-                      </Button>
-                      <Link href="/dashboard">Dashboard</Link>
-                    </div>
-                  ) : (
-                    <div className="flex  gap-3">
-                      <Button asChild variant="outline" size="sm">
-                        <Link href={auth.login.url}>{auth.login.title}</Link>
-                      </Button>
-                      <Button asChild size="sm">
-                        <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                      </Button>
-                    </div>
-                  )}
+                    Get Started
+                  </NavbarButton>
                 </div>
-              </SheetContent>
-            </Sheet>
+              </>
+            ) : (
+              <>
+                <div className="flex gap-3">
+                  <NavbarButton
+                    className="dark:bg-primary dark:text-white"
+                    href="/login"
+                  >
+                    Login
+                  </NavbarButton>
+                  <NavbarButton
+                    className="dark:bg-primary dark:text-white"
+                    href="/register"
+                  >
+                    Sign Up
+                  </NavbarButton>
+                </div>
+              </>
+            )}
           </div>
         </div>
-      </div>
-    </section>
-  );
-};
+      </NavBody>
+      <MobileNav visible={mobileMenuOpen}>
+        <MobileNavHeader>
+          <NavbarLogo />
+          <div className="flex items-center space-x-2">
+            <MobileNavToggle
+              isOpen={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            />
+          </div>
+        </MobileNavHeader>
+        <MobileNavMenu
+          isOpen={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
+        >
+          <NavItems
+            items={navItems}
+            className="flex flex-col space-x-0 space-y-4 relative w-full items-start"
+          />
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
+              {user ? (
+                <>
+                  <div className="flex items-center flex-col gap-4">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="rounded-full cursor-pointer"
+                        >
+                          <Avatar>
+                            <AvatarFallback className="font-bold text-primary">
+                              <span className="text-white font-bold text-xl">
+                                {user?.name
+                                  ?.trim()
+                                  .split(/\s+/)
+                                  .slice(0, 2)
+                                  .map((w) => w[0].toUpperCase())
+                                  .join("")}
+                              </span>
+                            </AvatarFallback>
+                          </Avatar>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-32">
+                        <DropdownMenuGroup>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              (window.location.href = dropdownMenuItem.link)
+                            }
+                            className="cursor-pointer"
+                          >
+                            {dropdownMenuItem.name}
+                          </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                          <DropdownMenuItem
+                            onClick={handleLogout}
+                            variant="destructive"
+                            className="cursor-pointer"
+                          >
+                            Log out
+                          </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
 
-const renderMenuItem = (item: MenuItem) => {
-  return (
-    <NavigationMenuItem key={item.title}>
-      <NavigationMenuLink
-        asChild
-        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
-      >
-        <Link href={item.url}>{item.title}</Link>
-      </NavigationMenuLink>
-    </NavigationMenuItem>
+                    <NavbarButton
+                      className="dark:bg-primary dark:text-white"
+                      href="/contact"
+                    >
+                      Get Started
+                    </NavbarButton>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex gap-3 flex-col">
+                    <NavbarButton
+                      className="dark:bg-primary dark:text-white"
+                      href="/login"
+                    >
+                      Login
+                    </NavbarButton>
+                    <NavbarButton
+                      className="dark:bg-primary dark:text-white"
+                      href="/register"
+                    >
+                      Sign Up
+                    </NavbarButton>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </MobileNavMenu>
+      </MobileNav>
+    </Navbar>
   );
-};
-
-const renderMobileMenuItem = (item: MenuItem) => {
-  return (
-    <Link key={item.title} href={item.url} className="text-md font-semibold">
-      {item.title}
-    </Link>
-  );
-};
-
-export { Navbar };
+}
