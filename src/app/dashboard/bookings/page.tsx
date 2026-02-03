@@ -95,7 +95,6 @@ export default function MyBookingsPage() {
   };
 
   const submitReview = async () => {
-    if (!reviewBooking) return;
     setSubmittingReview(true);
     try {
       await reviewService.createReview(reviewData);
