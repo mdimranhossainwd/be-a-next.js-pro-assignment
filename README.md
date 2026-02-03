@@ -58,7 +58,6 @@ SkillBridge has **3 core roles**, each with a clearly defined set of responsibil
 Make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (v18+ recommended)
-- [PostgreSQL](https://www.mongodb.com/) (
 - [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) or [pnpm](https://yarnpkg.com/)
 
 ---
