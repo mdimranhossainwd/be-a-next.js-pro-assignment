@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Search, X } from "lucide-react";
+import { useState } from "react";
 
 interface TutorFiltersProps {
   onSearch: (query: string) => void;
@@ -56,8 +56,8 @@ export function TutorFilters({
   return (
     <div className="bg-white/80 backdrop-blur-sm p-3 sm:p-4 md:p-5 lg:p-6 rounded-2xl shadow-lg border border-gray-100 space-y-3 sm:space-y-4 md:space-y-5 lg:space-y-6 lg:sticky lg:top-24">
       <div className="flex items-center justify-between mb-0.5 sm:mb-1 md:mb-2">
-        <h2 className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
-          Filters
+        <h2 className="text-base sm:text-lg md:text-xl font-bold  ">
+          Filters Tutor
         </h2>
         <Button
           variant="ghost"
@@ -71,7 +71,9 @@ export function TutorFilters({
       </div>
 
       <div>
-        <h3 className="font-semibold mb-1.5 sm:mb-2 md:mb-3 text-xs sm:text-sm md:text-base text-gray-700">Search</h3>
+        <h3 className="font-semibold mb-1.5 sm:mb-2 md:mb-3 text-xs sm:text-sm md:text-base text-gray-700">
+          Search
+        </h3>
         <div className="flex gap-1.5 sm:gap-2">
           <Input
             placeholder="Search..."
@@ -91,7 +93,9 @@ export function TutorFilters({
       </div>
 
       <div>
-        <h3 className="font-semibold mb-1.5 sm:mb-2 md:mb-3 text-xs sm:text-sm md:text-base text-gray-700">Category</h3>
+        <h3 className="font-semibold mb-1.5 sm:mb-2 md:mb-3 text-xs sm:text-sm md:text-base text-gray-700">
+          Select By Category
+        </h3>
         <Select value={selectedCategory} onValueChange={handleCategoryChange}>
           <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-9 sm:h-10 text-xs sm:text-sm">
             <SelectValue placeholder="All Categories" />
@@ -109,7 +113,10 @@ export function TutorFilters({
 
       <div>
         <h3 className="font-semibold mb-1.5 sm:mb-2 md:mb-3 text-xs sm:text-sm md:text-base text-gray-700">
-          Price: <span className="text-blue-600 text-xs sm:text-sm md:text-base">${priceRange[0]}-${priceRange[1]}/hr</span>
+          Price:{" "}
+          <span className=" text-xs sm:text-sm md:text-base">
+            ${priceRange[0]}-${priceRange[1]}/hr
+          </span>
         </h3>
         <Slider
           min={0}

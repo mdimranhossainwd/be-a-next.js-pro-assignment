@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container px-4 md:px-6 mx-auto grid md:grid-cols-4 gap-8">
         <div className="space-y-4">
           <h3 className="font-bold text-lg flex items-center gap-2">
-            <span className="text-blue-600">SkillBridge</span>
+            <span className="text-black">SkillBridge</span>
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Empowering learners and educators worldwide through seamless

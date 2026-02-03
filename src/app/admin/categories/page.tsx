@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Category } from "@/types/api";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, Plus } from "lucide-react";
-import { toast } from "sonner";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { categoryService } from "@/lib/services/category.service";
+import type { Category } from "@/types/api";
+import { Loader2, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -57,7 +57,6 @@ export default function AdminCategoriesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this category?")) return;
     setSavingId(id);
     try {
       await categoryService.deleteCategory(id);
@@ -151,7 +150,6 @@ export default function AdminCategoriesPage() {
                       )}
                     </div>
                     <Button
-
                       variant="outline"
                       size="sm"
                       className="text-red-600 hover:text-red-700 cursor-pointer"

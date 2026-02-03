@@ -3,7 +3,6 @@
 import Footer from "@/components/layout/footer";
 import { Header } from "@/components/layout/navbar";
 import { TutorCard } from "@/components/tutors/tutor-card";
-import { Button } from "@/components/ui/button";
 import { tutorService } from "@/lib/services/tutor.service";
 import type { TutorProfile } from "@/types/api";
 import { motion } from "framer-motion";
@@ -74,33 +73,28 @@ export default function Home() {
             className="flex flex-col items-center text-center space-y-8 max-w-4xl mx-auto"
           >
             <motion.div variants={fadeInUp} className="space-y-4">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 text-transparent">
-                Find Your Perfect, <br /> Best Tutor
+              <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                Connect with Expert, <br /> Tutor
               </h1>
               <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                Connect with verified tutors for 1-on-1 lessons. Elevate your
-                skills in coding, languages, music, and more with personalized
-                guidance.
+                Find your perfect tutor from thousands of experts. Book sessions
+                instantly and start learning today.
               </p>
             </motion.div>
             <motion.div variants={fadeInUp} className="flex gap-4">
-              <Link href="/register">
-                <Button
-                  size="lg"
-                  className="rounded-full h-12 px-8 text-base bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 hover:from-pink-700 hover:to-violet-700 border-0 text-white shadow-lg shadow-blue-500/20 transition-all hover:scale-105 cursor-pointer"
-                >
-                  Get Started Free
-                </Button>
-              </Link>
-              <Link href="/tutors">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="rounded-full h-12 px-8 text-base border-gray-200 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-800 dark:hover:bg-gray-900 dark:hover:text-gray-100 transition-all hover:scale-105 cursor-pointer "
-                >
-                  Find a Tutor
-                </Button>
-              </Link>
+              <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl p-3 flex flex-col md:flex-row gap-3">
+                <div className="flex-1 flex items-center px-4 py-2 bg-gray-50 rounded-xl">
+                  <Search className="h-5 w-5 text-gray-400 mr-3" />
+                  <input
+                    type="text"
+                    placeholder="What do you want to learn?"
+                    className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400"
+                  />
+                </div>
+                <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-xl transform hover:-translate-y-0.5 transition">
+                  Search Tutors
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         </div>
@@ -178,7 +172,7 @@ export default function Home() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="flex flex-col items-center text-center mb-12 space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800">
-              Meet
+              Meet{" "}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Our Top
               </span>{" "}
@@ -204,7 +198,7 @@ export default function Home() {
               <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
             </div>
           ) : featuredTutors.length > 0 ? (
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-4 gap-6">
               {featuredTutors.map((tutor) => (
                 <TutorCard key={tutor.id} tutor={tutor} />
               ))}
@@ -318,7 +312,7 @@ export default function Home() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="flex flex-col items-center text-center mb-12 space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800">
-              Meet
+              Meet {""}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Our Top
               </span>{" "}
@@ -348,13 +342,13 @@ export default function Home() {
               },
               {
                 icon: Globe2,
-                label: "Languages",
+                label: "Teaching",
                 color: "text-green-500",
                 bg: "bg-green-100 dark:bg-green-900/20",
               },
               {
                 icon: Music,
-                label: "Music",
+                label: "Exerise",
                 color: "text-pink-500",
                 bg: "bg-pink-100 dark:bg-pink-900/20",
               },

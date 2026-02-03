@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star, MapPin, Award } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import type { TutorProfile } from "@/types/api";
 import { motion } from "framer-motion";
+import { Award, Star } from "lucide-react";
+import Link from "next/link";
 
 interface TutorCardProps {
   tutor: TutorProfile;
@@ -26,9 +26,9 @@ export function TutorCard({ tutor }: TutorCardProps) {
         <CardContent className="p-3 sm:p-4 md:p-5 lg:p-6">
           <div className="flex items-start gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3 md:mb-4">
             <div className="relative shrink-0">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-blue-400 via-violet-400 to-purple-500 p-0.5 sm:p-1">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-blue-600 via-purple-400 to-purple-500 p-0.5 sm:p-1">
                 <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-blue-400 to-violet-400 flex items-center justify-center">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-400 flex items-center justify-center">
                     <span className="text-white font-bold text-sm sm:text-base md:text-xl">
                       {tutor.user?.name
                         ?.trim()
@@ -41,7 +41,7 @@ export function TutorCard({ tutor }: TutorCardProps) {
                 </div>
               </div>
               {isTopRated && (
-                <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 bg-yellow-400 rounded-full p-0.5 sm:p-1 shadow-md">
+                <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 bg-blue-600 rounded-full p-0.5 sm:p-1 shadow-md">
                   <Award className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4 text-white" />
                 </div>
               )}
@@ -94,10 +94,12 @@ export function TutorCard({ tutor }: TutorCardProps) {
                 <div className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
                   ${tutor.hourlyRate}
                 </div>
-                <span className="text-[10px] sm:text-xs text-gray-500">per hour</span>
+                <span className="text-[10px] sm:text-xs text-gray-500">
+                  per hour
+                </span>
               </div>
               <Link href={`/tutors/${tutor.id}`} className="shrink-0">
-                <Button className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white shadow-md hover:shadow-lg transition-all cursor-pointer text-[11px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 h-8 sm:h-9 md:h-10">
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-violet-700 text-white shadow-md hover:shadow-lg transition-all cursor-pointer text-[11px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 h-8 sm:h-9 md:h-10">
                   View Profile
                 </Button>
               </Link>

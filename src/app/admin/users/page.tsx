@@ -45,7 +45,6 @@ export default function AdminUsersPage() {
 
   useEffect(() => {
     void loadUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleFilter]);
 
   const handleSearch = () => {
@@ -155,8 +154,7 @@ export default function AdminUsersPage() {
                               Unban
                             </Button>
                             <Button
-                              variant="destructive"
-                              className=" cursor-pointer"
+                              className="bg-black cursor-pointer"
                               size="sm"
                               disabled={updatingId === user.id}
                               onClick={() => handleStatusUpdate(user.id, "BAN")}

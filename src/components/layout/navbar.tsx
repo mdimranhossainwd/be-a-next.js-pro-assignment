@@ -53,8 +53,8 @@ export function Header() {
 
   const navItems = [
     { name: "Home", link: "/" },
-    { name: "Find Tutors", link: "/tutors" },
-    { name: "About Us", link: "/about-us" },
+    { name: "All Tutors", link: "/tutors" },
+    { name: "Blog", link: "/blog" },
   ];
 
   if (user) {
@@ -143,13 +143,6 @@ export function Header() {
                       </DropdownMenuGroup>
                     </DropdownMenuContent>
                   </DropdownMenu>
-
-                  <NavbarButton
-                    className="dark:bg-primary dark:text-white"
-                    href="/contact"
-                  >
-                    Get Started
-                  </NavbarButton>
                 </div>
               </>
             ) : (
