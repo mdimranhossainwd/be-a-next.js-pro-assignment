@@ -1,5 +1,6 @@
 "use client";
 
+import { AiInsightsCard } from "@/components/dashboard/ai-insights-card";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,9 +36,9 @@ export default function StudentDashboardPage() {
       setStats({
         total: data.length,
         upcoming: data.filter(
-          (b) => b.status === "CONFIRMED" || b.status === "PENDING",
+          (b: Booking) => b.status === "CONFIRMED" || b.status === "PENDING",
         ).length,
-        completed: data?.filter((b) => b.status === "COMPLETED").length,
+        completed: data?.filter((b: Booking) => b.status === "COMPLETED").length,
       });
     } catch (error) {
       console.error("Failed to fetch bookings:", error);
@@ -85,6 +86,9 @@ export default function StudentDashboardPage() {
           description="Finished sessions"
         />
       </div>
+
+      {/* AI Insights */}
+      <AiInsightsCard bookings={bookings} userName={user?.name} />
 
       {/* Recent Bookings */}
       <Card>

@@ -19,11 +19,11 @@ import {
   NavBody,
   NavItems,
 } from "@/components/ui/resizable-navbar";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import { authService } from "@/lib/services";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-// import { ModeToggle } from "@/components/ui/ModeToggle";
 
 type User = {
   id: string;
@@ -105,38 +105,42 @@ export function Header() {
           <div className="flex items-center gap-2">
             {user ? (
               <>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                  <ModeToggle />
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
-                        variant="outline"
+                        variant="ghost"
                         size="icon"
-                        className="rounded-full cursor-pointer"
+                        className="rounded-full h-10 w-10 p-0 border border-border bg-card hover:bg-muted transition-colors"
                       >
-                        <Avatar>
-                          <AvatarFallback className="font-bold text-primary">
-                            {user.name.charAt(0)}
+                        <Avatar className="h-8 w-8">
+                          <AvatarFallback className="font-bold text-primary flex items-center justify-center">
+                            {user.name.charAt(0).toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-32">
+                    <DropdownMenuContent className="w-48 p-2 rounded-xl" align="end">
+                      <div className="px-3 py-2 border-b border-border mb-1">
+                        <p className="text-sm font-bold truncate">{user.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                      </div>
                       <DropdownMenuGroup>
                         <DropdownMenuItem
                           onClick={() =>
                             (window.location.href = dropdownMenuItem.link)
                           }
-                          className="cursor-pointer"
+                          className="cursor-pointer rounded-lg px-3 py-2"
                         >
                           {dropdownMenuItem.name}
                         </DropdownMenuItem>
                       </DropdownMenuGroup>
-                      <DropdownMenuSeparator />
+                      <DropdownMenuSeparator className="my-1" />
                       <DropdownMenuGroup>
                         <DropdownMenuItem
                           onClick={handleLogout}
-                          variant="destructive"
-                          className="cursor-pointer"
+                          className="cursor-pointer text-destructive focus:text-destructive rounded-lg px-3 py-2"
                         >
                           Log out
                         </DropdownMenuItem>
@@ -147,18 +151,19 @@ export function Header() {
               </>
             ) : (
               <>
-                <div className="flex gap-3">
+                <div className="flex gap-3 items-center">
+                  <ModeToggle />
                   <NavbarButton
-                    className="dark:bg-primary dark:text-white"
+                    className="bg-muted text-foreground hover:bg-muted/80 border-border"
                     href="/login"
                   >
                     Login
                   </NavbarButton>
                   <NavbarButton
-                    className="dark:bg-primary dark:text-white"
+                    className="bg-primary text-primary-foreground hover:opacity-90 shadow-lg shadow-primary/20"
                     href="/register"
                   >
-                    Sign Up
+                    Get Started
                   </NavbarButton>
                 </div>
               </>
@@ -170,6 +175,7 @@ export function Header() {
         <MobileNavHeader>
           <NavbarLogo />
           <div className="flex items-center space-x-2">
+            <ModeToggle />
             <MobileNavToggle
               isOpen={mobileMenuOpen}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

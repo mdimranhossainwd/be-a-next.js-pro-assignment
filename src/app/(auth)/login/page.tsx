@@ -35,10 +35,24 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
+
+  const handleQuickLogin = (role: "ADMIN" | "TUTOR") => {
+    if (role === "ADMIN") {
+      setValue("email", "mdimranhossain.wd@gmail.com");
+      setValue("password", "password1234");
+    } else {
+      setValue("email", "mdalaminmian@gmail.com");
+      setValue("password", "password1234");
+    }
+    // We don't automatically submit to let the user see what happened, 
+    // but the user asked for "click korle login hobe", so I will submit it.
+    handleSubmit(onSubmit)();
+  };
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
@@ -71,72 +85,117 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-violet-50 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <div className="flex justify-center mb-4"></div>
-          <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
-          <CardDescription className="text-center">
-            Enter your credentials to access your account
+    <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background opacity-70"></div>
+      
+      <Card className="w-full max-w-md border-border bg-card shadow-2xl rounded-[2.5rem] overflow-hidden">
+        <CardHeader className="space-y-4 pt-10">
+          <Link href="/" className="flex justify-center mb-2">
+            <span className="text-3xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SkillBridge</span>
+          </Link>
+          <CardTitle className="text-3xl font-black text-center text-foreground">Welcome back</CardTitle>
+          <CardDescription className="text-center text-muted-foreground text-lg">
+            Choose a quick login or enter your details
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent className="space-y-4">
+        
+        <CardContent className="space-y-6 px-8">
+          {/* Quick Login Buttons */}
+          <div className="flex gap-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleQuickLogin("ADMIN")}
+              className="flex-1 h-14 rounded-2xl border-border bg-muted/30 hover:bg-primary/5 hover:border-primary/50 transition-all font-bold gap-2"
+              disabled={isLoading}
+            >
+              <div className="w-2 h-2 rounded-full bg-blue-500" />
+              Admin Login
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleQuickLogin("TUTOR")}
+              className="flex-1 h-14 rounded-2xl border-border bg-muted/30 hover:bg-purple-500/5 hover:border-purple-500/50 transition-all font-bold gap-2"
+              disabled={isLoading}
+            >
+              <div className="w-2 h-2 rounded-full bg-purple-500" />
+              Tutor Login
+            </Button>
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-border" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-4 text-muted-foreground font-bold tracking-widest">Or continue with email</span>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="font-bold ml-1 text-muted-foreground">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="john@example.com"
+                className="h-12 rounded-xl bg-muted/50 border-border focus:ring-primary/20"
                 {...register("email")}
                 disabled={isLoading}
               />
               {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
+                <p className="text-xs font-bold text-red-500 ml-1">{errors.email.message}</p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" dir="rtl" className="font-bold ml-1 text-muted-foreground flex justify-between w-full">
+                <span>Password</span>
+                <Link href="#" className="text-xs text-primary hover:underline">Forgot?</Link>
+              </Label>
               <Input
                 id="password"
                 type="password"
                 placeholder="••••••••"
+                className="h-12 rounded-xl bg-muted/50 border-border focus:ring-primary/20"
                 {...register("password")}
                 disabled={isLoading}
               />
               {errors.password && (
-                <p className="text-sm text-red-500">
+                <p className="text-xs font-bold text-red-500 ml-1">
                   {errors.password.message}
                 </p>
               )}
             </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
+            
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-violet-600 mt-5 cursor-pointer"
+              className="w-full h-14 text-lg font-black bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:shadow-primary/20 transition-all rounded-2xl text-white mt-4"
               disabled={isLoading}
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Signing in...
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Authenticating...
                 </>
               ) : (
-                "Sign In"
+                "Sign In to Your Account"
               )}
             </Button>
-            <p className="text-sm text-center text-gray-600">
-              Don&apos;t have an account?{" "}
-              <Link
-                href="/register"
-                className="text-blue-600 hover:underline font-medium"
-              >
-                Sign up
-              </Link>
-            </p>
-          </CardFooter>
-        </form>
+          </form>
+        </CardContent>
+
+        <CardFooter className="pb-10 pt-4 flex justify-center">
+          <p className="text-sm font-medium text-muted-foreground">
+            New here?{" "}
+            <Link
+              href="/register"
+              className="text-primary hover:underline font-bold"
+            >
+              Create an account
+            </Link>
+          </p>
+        </CardFooter>
       </Card>
     </div>
   );
