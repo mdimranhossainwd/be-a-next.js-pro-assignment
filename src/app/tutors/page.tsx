@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Loader2, Filter, X } from "lucide-react";
-import type { TutorProfile, Category } from "@/types/api";
-import { tutorService } from "@/lib/services/tutor.service";
-import { categoryService } from "@/lib/services/category.service";
-import { Header } from "@/components/layout/navbar";
-import { TutorFilters } from "@/components/tutors/tutor-filters";
-import { TutorCard } from "@/components/tutors/tutor-card";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
 import Footer from "@/components/layout/footer";
+import { Header } from "@/components/layout/navbar";
+import { TutorCard } from "@/components/tutors/tutor-card";
+import { TutorFilters } from "@/components/tutors/tutor-filters";
+import { Button } from "@/components/ui/button";
+import { categoryService } from "@/lib/services/category.service";
+import { tutorService } from "@/lib/services/tutor.service";
+import type { Category, TutorProfile } from "@/types/api";
+import { motion } from "framer-motion";
+import { Filter, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function TutorsPage() {
   const [tutors, setTutors] = useState<TutorProfile[]>([]);
@@ -94,7 +94,7 @@ export default function TutorsPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen flex flex-col bg-background">
       <Header />
 
       {/* Hero Section */}
@@ -126,7 +126,7 @@ export default function TutorsPage() {
           <div className="lg:hidden mb-3 sm:mb-4 md:mb-6">
             <Button
               onClick={() => setShowFilters(!showFilters)}
-              className="w-full bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 h-10 sm:h-11 text-sm"
+              className="w-full bg-card text-foreground border border-border hover:bg-muted h-10 sm:h-11 text-sm"
             >
               <Filter className="h-4 w-4 mr-2" />
               {showFilters ? "Hide Filters" : "Show Filters"}
@@ -154,15 +154,15 @@ export default function TutorsPage() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-center py-10 sm:py-12 md:py-20 bg-white rounded-2xl shadow-sm border border-gray-100 mx-1 sm:mx-2 md:mx-0"
+                  className="text-center py-10 sm:py-12 md:py-20 bg-card rounded-2xl shadow-sm border border-border mx-1 sm:mx-2 md:mx-0"
                 >
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto mb-3 sm:mb-4 md:mb-6 rounded-full bg-gradient-to-br from-blue-100 to-violet-100 flex items-center justify-center">
-                    <Filter className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-blue-600" />
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto mb-3 sm:mb-4 md:mb-6 rounded-full bg-muted flex items-center justify-center">
+                    <Filter className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-primary" />
                   </div>
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 px-3 sm:px-4">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-2 px-3 sm:px-4">
                     No tutors found
                   </h3>
-                  <p className="text-xs sm:text-sm md:text-base text-gray-500 mb-4 sm:mb-6 px-3 sm:px-4">
+                  <p className="text-xs sm:text-sm md:text-base text-muted-foreground mb-4 sm:mb-6 px-3 sm:px-4">
                     Try adjusting your filters to see more results
                   </p>
                 </motion.div>
@@ -181,7 +181,7 @@ export default function TutorsPage() {
                         variant="outline"
                         onClick={() => setPage(page - 1)}
                         disabled={page === 1}
-                        className="border-gray-200 hover:bg-gray-50 w-full sm:w-auto min-w-[100px]"
+                        className="border-border hover:bg-muted w-full sm:w-auto min-w-[100px]"
                       >
                         Previous
                       </Button>
@@ -195,7 +195,7 @@ export default function TutorsPage() {
                             className={
                               p === page
                                 ? "bg-gradient-to-r from-blue-600 to-violet-600 min-w-[40px]"
-                                : "border-gray-200 hover:bg-gray-50 min-w-[40px]"
+                                : "border-border hover:bg-muted min-w-[40px]"
                             }
                           >
                             {p}
@@ -206,7 +206,7 @@ export default function TutorsPage() {
                         variant="outline"
                         onClick={() => setPage(page + 1)}
                         disabled={page === totalPages}
-                        className="border-gray-200 hover:bg-gray-50 w-full sm:w-auto min-w-[100px]"
+                        className="border-border hover:bg-muted w-full sm:w-auto min-w-[100px]"
                       >
                         Next
                       </Button>

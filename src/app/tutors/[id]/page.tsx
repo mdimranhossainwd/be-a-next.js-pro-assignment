@@ -10,19 +10,22 @@ import { notFound } from "next/navigation";
 async function getTutor(id: string) {
   try {
     const API_URL = env.NEXT_PUBLIC_BACKEND_URL;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     const response = await fetch(`${API_URL}/tutors/${id}`, {
       cache: "no-store",
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       return null;
     }
 
     const data = await response.json();
-    console.log(data.data);
-    console.log(data);
-
-    return data;
+    return data.data || data;
   } catch (error) {
     console.error("Error fetching tutor:", error);
     return null;
@@ -32,28 +35,37 @@ async function getTutor(id: string) {
 async function getTutorReviews(profileId: string, userId: string) {
   try {
     const API_URL = env.NEXT_PUBLIC_BACKEND_URL;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
 
     const fetchReviews = async (id: string) => {
-      const response = await fetch(`${API_URL}/reviews/tutor/${id}`, {
-        cache: "no-store",
-      });
+      try {
+        const response = await fetch(`${API_URL}/reviews/tutor/${id}`, {
+          cache: "no-store",
+          signal: controller.signal,
+        });
 
-      if (!response.ok) return null;
+        if (!response.ok) return null;
 
-      const data = await response.json();
-      console.log(`Reviews fetch for ${id}:`, data);
-
-      const payload = data.data;
-      if (Array.isArray(payload)) return payload as Review[];
-      if (payload?.reviews && Array.isArray(payload.reviews))
-        return payload.reviews as Review[];
-      return [];
+        const data = await response.json();
+        const payload = data.data;
+        if (Array.isArray(payload)) return payload as Review[];
+        if (payload?.reviews && Array.isArray(payload.reviews))
+          return payload.reviews as Review[];
+        return [];
+      } catch {
+        return null;
+      }
     };
 
+    // Try profileId first, then userId
     const reviewsByProfile = await fetchReviews(profileId);
-    if (reviewsByProfile && reviewsByProfile.length > 0)
+    if (reviewsByProfile && reviewsByProfile.length > 0) {
+      clearTimeout(timeoutId);
       return reviewsByProfile;
+    }
     const reviewsByUser = await fetchReviews(userId);
+    clearTimeout(timeoutId);
     return reviewsByUser || [];
   } catch (error) {
     console.error("Error fetching reviews:", error);
@@ -79,32 +91,32 @@ export default async function TutorProfilePage({
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-1 pt-32 pb-12 bg-gray-50">
-        <div className="container mx-auto">
+      <main className="flex-1 pt-32 pb-12 bg-background">
+        <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-8">
               {/* Tutor Header */}
-              <Card>
+              <Card className="border-border bg-card">
                 <CardContent className="p-8">
-                  <div className="flex items-start gap-6">
-                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-violet-400 flex-shrink-0" />
+                  <div className="flex flex-col md:flex-row items-start gap-6">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-violet-400 flex-shrink-0 shadow-lg" />
                     <div className="flex-1">
-                      <h1 className="text-3xl font-bold mb-2">
+                      <h1 className="text-3xl font-bold mb-2 text-foreground">
                         {tutor.user?.name || "Anonymous Tutor"}
                       </h1>
-                      <div className="flex items-center gap-4 mb-4">
+                      <div className="flex flex-wrap items-center gap-4 mb-4">
                         <div className="flex items-center gap-1">
                           <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                          <span className="text-lg font-semibold">
+                          <span className="text-lg font-bold text-foreground">
                             {tutor.averageRating?.toFixed(1) || "0.0"}
                           </span>
-                          <span className="text-gray-500">
+                          <span className="text-muted-foreground font-medium">
                             ({tutor.totalReviews || 0} reviews)
                           </span>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <Mail className="h-4 w-4" />
+                        <div className="flex items-center gap-2 text-muted-foreground font-medium">
+                          <Mail className="h-4 w-4 text-primary" />
                           <span>{tutor.user?.email}</span>
                         </div>
                       </div>
@@ -112,7 +124,7 @@ export default async function TutorProfilePage({
                         {(tutor.subjects || []).map((subject: string) => (
                           <span
                             key={subject}
-                            className="px-4 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium"
+                            className="px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-bold"
                           >
                             {subject}
                           </span>
@@ -124,29 +136,33 @@ export default async function TutorProfilePage({
               </Card>
 
               {/* About Section */}
-              <Card>
+              <Card className="border-border bg-card">
                 <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold mb-4">About</h2>
-                  <p className="text-gray-600 leading-relaxed">
+                  <h2 className="text-2xl font-bold mb-4 text-foreground">
+                    About
+                  </h2>
+                  <p className="text-muted-foreground leading-relaxed font-medium">
                     {tutor.bio || "This tutor hasn't added a bio yet."}
                   </p>
                 </CardContent>
               </Card>
 
               {/* Availability Section */}
-              <Card>
+              <Card className="border-border bg-card">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-3 mb-6">
-                    <Clock className="h-6 w-6 text-blue-600" />
-                    <h2 className="text-2xl font-bold">Availability</h2>
+                    <Clock className="h-6 w-6 text-primary" />
+                    <h2 className="text-2xl font-bold text-foreground">
+                      Availability
+                    </h2>
                   </div>
                   {!tutor.availability ||
                   Object.keys(tutor.availability).length === 0 ? (
-                    <p className="text-gray-500 text-center py-8">
+                    <p className="text-muted-foreground text-center py-8 font-medium">
                       No availability set yet
                     </p>
                   ) : (
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {[
                         "monday",
                         "tuesday",
@@ -162,31 +178,31 @@ export default async function TutorProfilePage({
                         return (
                           <div
                             key={day}
-                            className={`p-4 rounded-lg border-2 ${
+                            className={`p-4 rounded-xl border-2 transition-colors ${
                               hasSlots
-                                ? "border-blue-200 bg-blue-50"
-                                : "border-gray-200 bg-gray-50"
+                                ? "border-primary/20 bg-primary/5"
+                                : "border-border bg-muted/30"
                             }`}
                           >
-                            <h3 className="font-semibold text-sm uppercase tracking-wide mb-2 text-gray-700">
+                            <h3 className="font-bold text-xs uppercase tracking-widest mb-3 text-muted-foreground">
                               {day.charAt(0).toUpperCase() + day.slice(1)}
                             </h3>
                             {hasSlots ? (
-                              <div className="space-y-1">
+                              <div className="space-y-2">
                                 {slots.map((slot, index) => (
                                   <div
                                     key={index}
                                     className="flex items-center gap-2 text-sm"
                                   >
-                                    <Clock className="h-3.5 w-3.5 text-blue-600" />
-                                    <span className="text-gray-700 font-medium">
+                                    <Clock className="h-3.5 w-3.5 text-primary/70" />
+                                    <span className="text-foreground font-bold">
                                       {slot}
                                     </span>
                                   </div>
                                 ))}
                               </div>
                             ) : (
-                              <p className="text-gray-400 text-sm italic">
+                              <p className="text-muted-foreground/40 text-xs italic font-medium">
                                 Not available
                               </p>
                             )}
@@ -200,15 +216,17 @@ export default async function TutorProfilePage({
 
               {/* Stats */}
               <div className="grid md:grid-cols-3 gap-4">
-                <Card>
+                <Card className="border-border bg-card hover:border-primary/50 transition-colors">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                        <DollarSign className="h-6 w-6 text-blue-600" />
+                      <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                        <DollarSign className="h-6 w-6 text-primary" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Hourly Rate</p>
-                        <p className="text-2xl font-bold text-blue-600">
+                        <p className="text-sm text-muted-foreground font-medium">
+                          Hourly Rate
+                        </p>
+                        <p className="text-2xl font-black text-primary">
                           ${tutor.hourlyRate}
                         </p>
                       </div>
@@ -216,15 +234,17 @@ export default async function TutorProfilePage({
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="border-border bg-card hover:border-violet-500/50 transition-colors">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center">
-                        <Star className="h-6 w-6 text-violet-600" />
+                      <div className="w-12 h-12 rounded-2xl bg-violet-500/10 flex items-center justify-center">
+                        <Star className="h-6 w-6 text-violet-500" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Rating</p>
-                        <p className="text-2xl font-bold text-violet-600">
+                        <p className="text-sm text-muted-foreground font-medium">
+                          Rating
+                        </p>
+                        <p className="text-2xl font-black text-violet-500">
                           {tutor.averageRating?.toFixed(1) || "0.0"}
                         </p>
                       </div>
@@ -232,15 +252,17 @@ export default async function TutorProfilePage({
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="border-border bg-card hover:border-emerald-500/50 transition-colors">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                        <BookOpen className="h-6 w-6 text-green-600" />
+                      <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
+                        <BookOpen className="h-6 w-6 text-emerald-500" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Reviews</p>
-                        <p className="text-2xl font-bold text-green-600">
+                        <p className="text-sm text-muted-foreground font-medium">
+                          Reviews
+                        </p>
+                        <p className="text-2xl font-black text-emerald-500">
                           {tutor.totalReviews || 0}
                         </p>
                       </div>
@@ -250,11 +272,13 @@ export default async function TutorProfilePage({
               </div>
 
               {/* Reviews Section */}
-              <Card>
+              <Card className="border-border bg-card">
                 <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold mb-6">Reviews</h2>
+                  <h2 className="text-2xl font-bold mb-6 text-foreground">
+                    Reviews
+                  </h2>
                   {reviews.length === 0 ? (
-                    <p className="text-gray-500 text-center py-8">
+                    <p className="text-muted-foreground text-center py-8 font-medium">
                       No reviews yet
                     </p>
                   ) : (
@@ -262,13 +286,13 @@ export default async function TutorProfilePage({
                       {reviews.map((review) => (
                         <div
                           key={review.id}
-                          className="border-b pb-6 last:border-0"
+                          className="border-b border-border pb-6 last:border-0"
                         >
                           <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-violet-400 flex-shrink-0" />
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-violet-400 flex-shrink-0 shadow-sm" />
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-2">
-                                <p className="font-semibold">
+                                <p className="font-bold text-foreground">
                                   {review.student?.name || "Anonymous"}
                                 </p>
                                 <div className="flex items-center gap-1">
@@ -278,18 +302,18 @@ export default async function TutorProfilePage({
                                       className={`h-4 w-4 ${
                                         i < review.rating
                                           ? "fill-yellow-400 text-yellow-400"
-                                          : "text-gray-300"
+                                          : "text-muted border-border"
                                       }`}
                                     />
                                   ))}
                                 </div>
                               </div>
                               {review.comment ? (
-                                <p className="text-gray-600">
+                                <p className="text-muted-foreground leading-relaxed font-medium">
                                   {review.comment}
                                 </p>
                               ) : null}
-                              <p className="text-sm text-gray-400 mt-2">
+                              <p className="text-sm text-muted-foreground/60 mt-2 font-medium">
                                 {new Date(
                                   review.createdAt,
                                 ).toLocaleDateString()}

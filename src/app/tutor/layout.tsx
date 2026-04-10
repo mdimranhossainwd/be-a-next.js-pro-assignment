@@ -24,9 +24,9 @@ export default function TutorLayout({
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-background">
       <Sidebar role="TUTOR" />
-      <main className="flex-1 bg-gray-50 p-4 md:p-8 overflow-auto lg:ml-0">
+      <main className="flex-1 bg-muted/30 p-4 md:p-8 overflow-auto lg:ml-0">
         {children}
       </main>
     </div>

@@ -59,8 +59,8 @@ export default function StudentDashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Welcome back, {user?.name}!</h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold mb-2 text-foreground">Welcome back, {user?.name}!</h1>
+        <p className="text-muted-foreground">
           Here&apos;s an overview of your learning journey
         </p>
       </div>
@@ -91,11 +91,11 @@ export default function StudentDashboardPage() {
       <AiInsightsCard bookings={bookings} userName={user?.name} />
 
       {/* Recent Bookings */}
-      <Card>
+      <Card className="border-border bg-card">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Recent Bookings</CardTitle>
+          <CardTitle className="text-foreground">Recent Bookings</CardTitle>
           <Link href="/dashboard/bookings">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="font-bold border-border">
               View All
             </Button>
           </Link>
@@ -103,11 +103,11 @@ export default function StudentDashboardPage() {
         <CardContent>
           {bookings.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500 mb-4">
+              <p className="text-muted-foreground mb-4 font-medium">
                 You haven&apos;t booked any sessions yet
               </p>
               <Link href="/tutors">
-                <Button className="bg-gradient-to-r from-blue-600 to-violet-600">
+                <Button className="bg-gradient-to-r from-blue-600 to-violet-600 font-bold text-white">
                   Browse Tutors
                 </Button>
               </Link>
@@ -117,26 +117,26 @@ export default function StudentDashboardPage() {
               {bookings?.map((booking) => (
                 <div
                   key={booking.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex items-center justify-between p-4 border border-border rounded-xl hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-violet-400" />
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-violet-400 shadow-md" />
                     <div>
-                      <h3 className="font-semibold">
+                      <h3 className="font-semibold text-foreground">
                         {booking.tutor?.name || "Anonymous Tutor"}
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-muted-foreground">
                         {new Date(booking.startTime).toLocaleString()}
                       </p>
                       <span
-                        className={`inline-block mt-1 px-2 py-1 rounded-full text-xs ${
+                        className={`inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-bold ${
                           booking.status === "CONFIRMED"
-                            ? "bg-green-100 text-green-700"
+                            ? "bg-green-500/10 text-green-600 dark:text-green-400"
                             : booking.status === "COMPLETED"
-                              ? "bg-blue-100 text-blue-700"
+                              ? "bg-blue-500/10 text-blue-600 dark:text-blue-400"
                               : booking.status === "CANCELLED"
-                                ? "bg-red-100 text-red-700"
-                                : "bg-yellow-100 text-yellow-700"
+                                ? "bg-red-500/10 text-red-600 dark:text-red-400"
+                                : "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400"
                         }`}
                       >
                         {booking.status}
@@ -145,7 +145,7 @@ export default function StudentDashboardPage() {
                   </div>
                   <Link href={`/dashboard/bookings`}>
                     <Button
-                      className=" cursor-pointer"
+                      className="cursor-pointer font-bold text-muted-foreground hover:text-primary transition-colors"
                       variant="ghost"
                       size="sm"
                     >

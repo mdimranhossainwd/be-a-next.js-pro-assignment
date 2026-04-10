@@ -48,8 +48,8 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
-        <p className="text-gray-600">Platform overview and statistics</p>
+        <h1 className="text-3xl font-bold mb-2 text-foreground">Admin Dashboard</h1>
+        <p className="text-muted-foreground">Platform overview and statistics</p>
       </div>
 
       <div className="grid md:grid-cols-4 gap-6">
@@ -79,25 +79,25 @@ export default function AdminDashboardPage() {
         />
       </div>
 
-      <Card>
+      <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle>Recent Bookings</CardTitle>
+          <CardTitle className="text-foreground">Recent Bookings</CardTitle>
         </CardHeader>
         <CardContent>
           {stats.recentBookings.length === 0 ? (
-            <p className="text-gray-500 text-sm">No recent bookings.</p>
+            <p className="text-muted-foreground text-sm font-medium">No recent bookings.</p>
           ) : (
             <div className="space-y-3">
               {stats.recentBookings.map((booking) => (
                 <div
                   key={booking.id}
-                  className="flex items-center justify-between p-3 border rounded-lg bg-white"
+                  className="flex items-center justify-between p-3 border border-border rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex flex-col text-sm">
-                    <span className="font-medium">
+                    <span className="font-bold text-foreground">
                       {booking.student.name} → {booking.tutor.name}
                     </span>
-                    <span className="text-gray-500">
+                    <span className="text-muted-foreground">
                       {new Date(booking.createdAt).toLocaleString()}
                     </span>
                   </div>

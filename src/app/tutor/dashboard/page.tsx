@@ -49,8 +49,8 @@ export default function TutorDashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Welcome back, {user?.name}!</h1>
-        <p className="text-gray-600">Here&apos;s your teaching overview</p>
+        <h1 className="text-3xl font-bold mb-2 text-foreground">Welcome back, {user?.name}!</h1>
+        <p className="text-muted-foreground">Here&apos;s your teaching overview</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
@@ -74,36 +74,36 @@ export default function TutorDashboardPage() {
         />
       </div>
 
-      <Card>
+      <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle>Recent Sessions</CardTitle>
+          <CardTitle className="text-foreground">Recent Sessions</CardTitle>
         </CardHeader>
         <CardContent>
           {bookings.length === 0 ? (
-            <p className="text-center text-gray-500 py-8">No sessions yet</p>
+            <p className="text-center text-muted-foreground py-8 font-medium">No sessions yet</p>
           ) : (
             <div className="space-y-4">
               {bookings.slice(0, 5).map((booking) => (
                 <div
                   key={booking.id}
-                  className="flex items-center justify-between p-4 border rounded-lg"
+                  className="flex items-center justify-between p-4 border border-border rounded-xl hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-violet-400" />
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-violet-400 shadow-md" />
                     <div>
-                      <h3 className="font-semibold">
+                      <h3 className="font-semibold text-foreground">
                         {booking.student?.name || "Anonymous Student"}
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-muted-foreground">
                         {new Date(booking.startTime).toLocaleString()}
                       </p>
                       <span
-                        className={`inline-block mt-1 px-2 py-1 rounded-full text-xs ${
+                        className={`inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-bold ${
                           booking.status === "CONFIRMED"
-                            ? "bg-green-100 text-green-700"
+                            ? "bg-green-500/10 text-green-600 dark:text-green-400"
                             : booking.status === "COMPLETED"
-                              ? "bg-blue-100 text-blue-700"
-                              : "bg-yellow-100 text-yellow-700"
+                              ? "bg-blue-500/10 text-blue-600 dark:text-blue-400"
+                              : "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400"
                         }`}
                       >
                         {booking.status}
@@ -111,7 +111,7 @@ export default function TutorDashboardPage() {
                     </div>
                   </div>
                   {booking.totalPrice && (
-                    <div className="text-lg font-bold text-blue-600">
+                    <div className="text-lg font-bold text-primary">
                       ${booking.totalPrice}
                     </div>
                   )}

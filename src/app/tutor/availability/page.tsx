@@ -170,17 +170,17 @@ export default function TutorAvailabilityPage() {
   return (
     <div className="max-w-4xl">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Availability</h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold mb-2 text-foreground">Availability</h1>
+        <p className="text-muted-foreground">
           Set your weekly time slots. Students can only book within these
           ranges.
         </p>
       </div>
 
-      <Card>
+      <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle>Weekly Schedule</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-foreground">Weekly Schedule</CardTitle>
+          <CardDescription className="text-muted-foreground font-medium">
             Use 24-hour format ranges like <code>09:00-12:00</code>,{" "}
             <code>14:00-17:00</code>.
           </CardDescription>
@@ -193,12 +193,12 @@ export default function TutorAvailabilityPage() {
             return (
               <div
                 key={key}
-                className="flex flex-col gap-2 rounded-lg border bg-white p-4 md:flex-row md:items-center"
+                className="flex flex-col gap-2 rounded-xl border border-border bg-card p-4 md:flex-row md:items-center hover:bg-muted/30 transition-colors"
               >
-                <div className="w-32 font-medium">{label}</div>
-                <div className="flex-1 space-y-2 text-sm text-gray-600">
+                <div className="w-32 font-bold text-foreground">{label}</div>
+                <div className="flex-1 space-y-2 text-sm text-muted-foreground">
                   {slots.length === 0 ? (
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-muted-foreground/60 font-medium">
                       No slots added for this day.
                     </p>
                   ) : (
@@ -208,10 +208,10 @@ export default function TutorAvailabilityPage() {
                           key={`${slot}-${idx}`}
                           type="button"
                           onClick={() => handleRemoveSlot(key, idx)}
-                          className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100"
+                          className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary hover:bg-primary/20 transition-colors"
                         >
                           {slot}
-                          <span className="ml-1 text-blue-500">×</span>
+                          <span className="ml-1 text-primary/70">×</span>
                         </button>
                       ))}
                     </div>
@@ -221,6 +221,7 @@ export default function TutorAvailabilityPage() {
                   <Input
                     placeholder="e.g. 09:00-12:00"
                     value={newSlot[key] || ""}
+                    className="h-10 rounded-lg border-border bg-muted/50"
                     onChange={(e) =>
                       setNewSlot((prev) => ({
                         ...prev,
@@ -232,6 +233,7 @@ export default function TutorAvailabilityPage() {
                     variant="outline"
                     size="sm"
                     type="button"
+                    className="font-bold border-border"
                     onClick={() => handleAddSlot(key)}
                   >
                     <Plus className="mr-1 h-4 w-4" />
@@ -245,7 +247,7 @@ export default function TutorAvailabilityPage() {
           <div className="mt-6 flex justify-end">
             <Button
               onClick={handleSave}
-              className="bg-gradient-to-r from-blue-600 to-violet-600"
+              className="bg-gradient-to-r from-blue-600 to-violet-600 font-bold text-white shadow-lg shadow-primary/20"
               disabled={saving}
             >
               {saving ? (

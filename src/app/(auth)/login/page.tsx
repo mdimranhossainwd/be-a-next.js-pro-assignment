@@ -85,117 +85,101 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background opacity-70"></div>
-      
-      <Card className="w-full max-w-md border-border bg-card shadow-2xl rounded-[2.5rem] overflow-hidden">
-        <CardHeader className="space-y-4 pt-10">
-          <Link href="/" className="flex justify-center mb-2">
-            <span className="text-3xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SkillBridge</span>
-          </Link>
-          <CardTitle className="text-3xl font-black text-center text-foreground">Welcome back</CardTitle>
-          <CardDescription className="text-center text-muted-foreground text-lg">
-            Choose a quick login or enter your details
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-violet-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 p-4">
+      <Card className="w-full max-w-md bg-white dark:bg-slate-950">
+        <CardHeader className="space-y-1">
+          <div className="flex justify-center mb-4"></div>
+          <CardTitle className="text-2xl text-center text-gray-900 dark:text-white">Welcome back</CardTitle>
+          <CardDescription className="text-center text-gray-600 dark:text-gray-400">
+            Enter your credentials to access your account
           </CardDescription>
         </CardHeader>
-        
-        <CardContent className="space-y-6 px-8">
-          {/* Quick Login Buttons */}
-          <div className="flex gap-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleQuickLogin("ADMIN")}
-              className="flex-1 h-14 rounded-2xl border-border bg-muted/30 hover:bg-primary/5 hover:border-primary/50 transition-all font-bold gap-2"
-              disabled={isLoading}
-            >
-              <div className="w-2 h-2 rounded-full bg-blue-500" />
-              Admin Login
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleQuickLogin("TUTOR")}
-              className="flex-1 h-14 rounded-2xl border-border bg-muted/30 hover:bg-purple-500/5 hover:border-purple-500/50 transition-all font-bold gap-2"
-              disabled={isLoading}
-            >
-              <div className="w-2 h-2 rounded-full bg-purple-500" />
-              Tutor Login
-            </Button>
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-border" />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <CardContent className="space-y-4">
+            {/* Quick Login Buttons */}
+            <div className="flex gap-3 mb-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => handleQuickLogin("ADMIN")}
+                className="flex-1 h-11 text-xs font-bold border-gray-200 dark:border-gray-800"
+                disabled={isLoading}
+              >
+                Admin Quick Login
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => handleQuickLogin("TUTOR")}
+                className="flex-1 h-11 text-xs font-bold border-gray-200 dark:border-gray-800"
+                disabled={isLoading}
+              >
+                Tutor Quick Login
+              </Button>
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-4 text-muted-foreground font-bold tracking-widest">Or continue with email</span>
-            </div>
-          </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <div className="relative flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-gray-200 dark:border-gray-800" />
+              </div>
+              <span className="relative bg-white dark:bg-slate-950 px-2 text-xs text-gray-500 uppercase">Or</span>
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="email" className="font-bold ml-1 text-muted-foreground">Email</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="john@example.com"
-                className="h-12 rounded-xl bg-muted/50 border-border focus:ring-primary/20"
                 {...register("email")}
                 disabled={isLoading}
               />
               {errors.email && (
-                <p className="text-xs font-bold text-red-500 ml-1">{errors.email.message}</p>
+                <p className="text-sm text-red-500">{errors.email.message}</p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" dir="rtl" className="font-bold ml-1 text-muted-foreground flex justify-between w-full">
-                <span>Password</span>
-                <Link href="#" className="text-xs text-primary hover:underline">Forgot?</Link>
-              </Label>
+              <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
                 type="password"
                 placeholder="••••••••"
-                className="h-12 rounded-xl bg-muted/50 border-border focus:ring-primary/20"
                 {...register("password")}
                 disabled={isLoading}
               />
               {errors.password && (
-                <p className="text-xs font-bold text-red-500 ml-1">
+                <p className="text-sm text-red-500">
                   {errors.password.message}
                 </p>
               )}
             </div>
-            
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-4">
             <Button
               type="submit"
-              className="w-full h-14 text-lg font-black bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:shadow-primary/20 transition-all rounded-2xl text-white mt-4"
+              className="w-full bg-gradient-to-r from-blue-600 to-violet-600 mt-5 cursor-pointer dark:text-white"
               disabled={isLoading}
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Authenticating...
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing in...
                 </>
               ) : (
-                "Sign In to Your Account"
+                "Sign In"
               )}
             </Button>
-          </form>
-        </CardContent>
-
-        <CardFooter className="pb-10 pt-4 flex justify-center">
-          <p className="text-sm font-medium text-muted-foreground">
-            New here?{" "}
-            <Link
-              href="/register"
-              className="text-primary hover:underline font-bold"
-            >
-              Create an account
-            </Link>
-          </p>
-        </CardFooter>
+            <p className="text-sm text-center text-gray-600">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/register"
+                className="text-blue-600 hover:underline font-medium"
+              >
+                Sign up
+              </Link>
+            </p>
+          </CardFooter>
+        </form>
       </Card>
     </div>
   );

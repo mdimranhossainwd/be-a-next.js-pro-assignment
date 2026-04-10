@@ -73,36 +73,38 @@ export default function AdminCategoriesPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Category Management</h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold mb-2 text-foreground">Category Management</h1>
+        <p className="text-muted-foreground">
           Create, update, and remove tutoring categories.
         </p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[2fr,3fr]">
-        <Card>
+        <Card className="border-border bg-card">
           <CardHeader>
-            <CardTitle>Add Category</CardTitle>
+            <CardTitle className="text-foreground">Add Category</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Name</label>
+              <label className="text-sm font-bold text-muted-foreground ml-1">Name</label>
               <Input
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder="e.g. Mathematics"
+                className="rounded-xl border-border bg-muted/50"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Description</label>
+              <label className="text-sm font-bold text-muted-foreground ml-1">Description</label>
               <Input
                 value={newDescription}
                 onChange={(e) => setNewDescription(e.target.value)}
                 placeholder="Short description"
+                className="rounded-xl border-border bg-muted/50"
               />
             </div>
             <Button
-              className="w-full bg-gradient-to-r from-blue-600 to-violet-600 cursor-pointer"
+              className="w-full bg-gradient-to-r from-blue-600 to-violet-600 font-bold text-white shadow-lg shadow-primary/20 h-11 rounded-xl"
               onClick={handleCreate}
               disabled={savingId === "new"}
             >
@@ -121,17 +123,17 @@ export default function AdminCategoriesPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-border bg-card">
           <CardHeader>
-            <CardTitle>Categories</CardTitle>
+            <CardTitle className="text-foreground">Categories</CardTitle>
           </CardHeader>
           <CardContent>
             {loading ? (
               <div className="flex items-center justify-center py-12">
-                <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
               </div>
             ) : categories.length === 0 ? (
-              <p className="text-center text-gray-500 py-12">
+              <p className="text-center text-muted-foreground py-12 font-medium">
                 No categories created yet.
               </p>
             ) : (
@@ -139,12 +141,12 @@ export default function AdminCategoriesPage() {
                 {categories.map((category) => (
                   <div
                     key={category.id}
-                    className="flex items-center justify-between rounded-lg border bg-white p-4"
+                    className="flex items-center justify-between rounded-xl border border-border bg-card p-4 hover:bg-muted/30 transition-colors"
                   >
                     <div>
-                      <p className="font-medium">{category.name}</p>
+                      <p className="font-bold text-foreground">{category.name}</p>
                       {category.description && (
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-muted-foreground font-medium">
                           {category.description}
                         </p>
                       )}
@@ -152,7 +154,7 @@ export default function AdminCategoriesPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="text-red-600 hover:text-red-700 cursor-pointer"
+                      className="text-destructive hover:bg-destructive/10 border-border font-bold rounded-lg"
                       disabled={savingId === category.id}
                       onClick={() => handleDelete(category.id)}
                     >

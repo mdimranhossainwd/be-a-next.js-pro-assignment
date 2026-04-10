@@ -21,7 +21,7 @@ import {
 import { bookingService } from "@/lib/services/booking.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { Loader2 } from "lucide-react";
+import { Clock, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -144,40 +144,48 @@ export function BookingForm({
   };
 
   return (
-    <Card>
+    <Card className="border-border bg-card shadow-xl">
       <CardHeader>
-        <CardTitle>Book a Session</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-foreground">Book a Session</CardTitle>
+        <CardDescription className="text-muted-foreground font-medium">
           Book a tutoring session with {tutorName}
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label>Select Date</Label>
-            <Calendar
-              mode="single"
-              selected={selectedDate}
-              onSelect={handleDateSelect}
-              disabled={(date) => date < new Date()}
-              className="rounded-md border"
-            />
+            <Label className="text-foreground font-bold ml-1">
+              Select Date
+            </Label>
+            <div className="p-1 rounded-xl border border-border bg-muted/20">
+              <Calendar
+                mode="single"
+                selected={selectedDate}
+                onSelect={handleDateSelect}
+                disabled={(date) => date < new Date()}
+                className="rounded-lg bg-card text-foreground"
+              />
+            </div>
             {errors.startTime && (
-              <p className="text-sm text-red-500">{errors.startTime.message}</p>
+              <p className="text-sm font-bold text-destructive">
+                {errors.startTime.message}
+              </p>
             )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Start Time</Label>
+              <Label className="text-foreground font-bold ml-1">
+                Start Time
+              </Label>
               <Select
                 onValueChange={handleStartTimeChange}
                 disabled={!selectedDate}
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select time" />
+                <SelectTrigger className="rounded-xl border-border bg-muted/50">
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-card border-border">
                   {timeSlots.map((time) => (
                     <SelectItem key={time} value={time}>
                       {time}
@@ -188,12 +196,12 @@ export function BookingForm({
             </div>
 
             <div className="space-y-2">
-              <Label>End Time</Label>
+              <Label className="text-foreground font-bold ml-1">End Time</Label>
               <Select onValueChange={handleEndTimeChange} disabled={!startTime}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select time" />
+                <SelectTrigger className="rounded-xl border-border bg-muted/50">
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-card border-border">
                   {timeSlots.map((time) => (
                     <SelectItem
                       key={time}
@@ -206,31 +214,38 @@ export function BookingForm({
                 </SelectContent>
               </Select>
               {errors.endTime && (
-                <p className="text-sm text-red-500">{errors.endTime.message}</p>
+                <p className="text-sm font-bold text-destructive">
+                  {errors.endTime.message}
+                </p>
               )}
             </div>
           </div>
 
           <div className="space-y-2">
-            <p className="text-sm text-gray-600">
-              Selected date:{" "}
-              <span className="font-medium">
+            <p className="text-sm text-muted-foreground font-medium flex items-center gap-2">
+              <Clock className="h-4 w-4 text-primary" />
+              Selected:{" "}
+              <span className="font-bold text-foreground">
                 {selectedDate ? format(selectedDate, "PPP") : "—"}
               </span>
             </p>
           </div>
 
           {totalCost > 0 && (
-            <div className="bg-blue-50 p-4 rounded-lg">
+            <div className="bg-primary/5 p-4 rounded-xl border border-primary/10">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Duration:</span>
-                <span className="font-medium">
+                <span className="text-sm text-muted-foreground font-medium">
+                  Duration:
+                </span>
+                <span className="font-bold text-foreground">
                   {calculateDuration()} hour(s)
                 </span>
               </div>
-              <div className="flex justify-between items-center mt-2">
-                <span className="text-sm text-gray-600">Total Cost:</span>
-                <span className="text-2xl font-bold text-blue-600">
+              <div className="flex justify-between items-center mt-2 pt-2 border-t border-primary/10">
+                <span className="text-sm text-muted-foreground font-medium">
+                  Total Cost:
+                </span>
+                <span className="text-2xl font-black text-primary">
                   ${totalCost}
                 </span>
               </div>
@@ -240,13 +255,13 @@ export function BookingForm({
         <CardFooter>
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-blue-600 to-violet-600 mt-5 cursor-pointer"
+            className="w-full bg-gradient-to-r from-blue-600 to-violet-600 h-12 rounded-xl font-bold text-white shadow-lg shadow-blue-500/20 cursor-pointer"
             disabled={isLoading || !selectedDate || !startTime || !endTime}
           >
             {isLoading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Booking...
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Processing...
               </>
             ) : (
               "Confirm Booking"
