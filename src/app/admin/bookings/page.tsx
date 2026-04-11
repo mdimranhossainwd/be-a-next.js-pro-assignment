@@ -114,7 +114,7 @@ export default function AdminBookingsPage() {
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
                 <thead>
-                  <tr className="border-b bg-gray-50 text-left">
+                  <tr className="border-b bg-gray-50 dark:bg-gray-800 text-left">
                     <th className="px-4 py-3 font-medium">Student</th>
                     <th className="px-4 py-3 font-medium">Tutor</th>
                     <th className="px-4 py-3 font-medium">Time</th>
