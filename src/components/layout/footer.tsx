@@ -12,14 +12,6 @@ export default function Footer() {
             Empowering learners and educators worldwide through seamless
             connection and personalized guidance. Our platform bridges the gap between knowledge and curiosity.
           </p>
-          <div className="flex gap-4">
-            {/* Social Icons Placeholder */}
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="w-8 h-8 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-white transition-colors cursor-pointer">
-                <div className="w-4 h-4 bg-current rounded-sm opacity-50" />
-              </div>
-            ))}
-          </div>
         </div>
         <div>
           <h4 className="font-bold text-foreground mb-6">Platform</h4>
@@ -111,9 +103,6 @@ export default function Footer() {
       </div>
       <div className="container px-4 md:px-6 mx-auto mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
         <p>© {new Date().getFullYear()} SkillBridge. All rights reserved.</p>
-        <div className="flex gap-6">
-            <span>Made with ❤️ for students</span>
-        </div>
       </div>
     </footer>
   );
